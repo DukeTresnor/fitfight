@@ -1,0 +1,86 @@
+[gd_scene load_steps=13 format=3 uid="uid://3ig4tjixmgys"]
+
+[ext_resource type="Texture2D" uid="uid://bo2r7vdupsilo" path="res://assets/sprites/youmu_konpaku_spritesheet.png" id="1_aw7yu"]
+[ext_resource type="Script" path="res://scripts/dummy_enemy.gd" id="1_fjhju"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4xqy2"]
+atlas = ExtResource("1_aw7yu")
+region = Rect2(0, 0, 288, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hahux"]
+atlas = ExtResource("1_aw7yu")
+region = Rect2(288, 0, 288, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1icnx"]
+atlas = ExtResource("1_aw7yu")
+region = Rect2(576, 0, 288, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d78nc"]
+atlas = ExtResource("1_aw7yu")
+region = Rect2(864, 0, 288, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4vjr1"]
+atlas = ExtResource("1_aw7yu")
+region = Rect2(1152, 0, 288, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qsgic"]
+atlas = ExtResource("1_aw7yu")
+region = Rect2(1440, 0, 288, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vjkdt"]
+atlas = ExtResource("1_aw7yu")
+region = Rect2(1728, 0, 288, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ho56e"]
+atlas = ExtResource("1_aw7yu")
+region = Rect2(2016, 0, 288, 144)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ri6xx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4xqy2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hahux")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1icnx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d78nc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4vjr1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qsgic")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vjkdt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ho56e")
+}],
+"loop": true,
+"name": &"debug_idle",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qrl45"]
+size = Vector2(58, 81)
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+texture_filter = 1
+position = Vector2(6, -73)
+script = ExtResource("1_fjhju")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ri6xx")
+animation = &"debug_idle"
+autoplay = "debug_idle"
+flip_h = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-7, 32)
+shape = SubResource("RectangleShape2D_qrl45")

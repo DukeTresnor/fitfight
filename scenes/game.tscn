@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://c5xrq6275uyc8"]
+
+[ext_resource type="PackedScene" uid="uid://f8u28dr1d608" path="res://scenes/player_1.tscn" id="1_lm0sm"]
+[ext_resource type="PackedScene" uid="uid://3ig4tjixmgys" path="res://scenes/dummy_enemy.tscn" id="2_fr740"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_o1im3"]
+
+[node name="Game" type="Node2D"]
+
+[node name="Player1" parent="." instance=ExtResource("1_lm0sm")]
+position = Vector2(-12, -15)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(34, -55)
+zoom = Vector2(2, 2)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(33, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("WorldBoundaryShape2D_o1im3")
+
+[node name="DummyEnemy" parent="." groups=["debug_enemies"] instance=ExtResource("2_fr740")]
+position = Vector2(178, -80)
