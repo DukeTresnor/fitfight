@@ -3,6 +3,9 @@ extends State
 # References to player_1's various hitboxes
 @onready var attack_light_collision = $"../../AttackLightCollision"
 
+# Get a reference to the player's state_machine in order to check its flip_h property
+#   Already have this reference since we inherit from the state machine
+
 var attack_light_repeat_count = 0
 
 func enter(_msg := {}) -> void:
@@ -21,6 +24,7 @@ func enter(_msg := {}) -> void:
 	
 func update(delta: float) -> void:
 	#if state_machine.animated_sprite_2d.get_animation() == "attack_light":
+		
 	
 	# turn the hitbox on at frame 1
 	if state_machine.animated_sprite_2d.get_frame() == 1:

@@ -1,5 +1,8 @@
 extends State
 
+var player_pos
+var dummy_pos
+
 func enter(_msg := {}) -> void:
 	owner.velocity = Vector2.ZERO
 	
@@ -15,17 +18,38 @@ func update(delta: float) -> void:
 		return
 
 	if owner.is_on_floor():
-		#state_machine.animated_sprite_2d.set_flip_h(true)
+		# Assigning for easy reference
+		player_pos = state_machine.animated_sprite_2d.global_position
+		dummy_pos = owner.dummy_enemy_reference.global_position
 		
-		#pass
+		# Code logic to switch the player based on location relative to the enemy
+		# Has a lot of bugs -- works! Keep an eye on it
+		if player_pos - dummy_pos >= Vector2(0.0, 0.0):
+			#state_machine.animated_sprite_2d.set_flip_h(true)
+			#state_machine.animated_sprite_2d.set_flip_v(true)
+			owner.rotation = -PI
+			#owner.scale.x = -1
+			owner.scale.y = -1
+			
+		else:
+			#state_machine.animated_sprite_2d.set_flip_h(false)
+			owner.rotation = 0.0
+			#owner.scale.x = 1
+			owner.scale.y = 1
+
 		# Some debug print statements
 		# These print statements are to see what the global position of each other player
 		#   I'm not sure how to reference the enemey's location atm
 		#   I think something has to do with me not getting the reference to DummyEnemy properly
 		#		look into?
 		# Look into the look_at() function as well
-		print("idle: dummy_enemy location: " + str(owner.dummy_enemy_reference.global_position))
-		print("idle: player_1 location: " + str(state_machine.animated_sprite_2d.global_position))	
+		#print("idle: dummy_enemy location: " + str(dummy_pos))
+		#print("idle: player_1 location: " + str(player_pos))	
+		#print("idle: player_1 location - dummy_enemy location: " + str(player_pos - dummy_pos))
+		#print("idle: player_1 horizontal scale: " + str(owner.scale.x))
+	
+	
+	
 	
 	if Input.is_action_just_pressed("jump_neutral"):
 		# We can use a msg dictionary to tell the
