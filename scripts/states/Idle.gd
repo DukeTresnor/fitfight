@@ -17,15 +17,15 @@ func update(delta: float) -> void:
 	if owner.is_on_floor():
 		#state_machine.animated_sprite_2d.set_flip_h(true)
 		
-		pass
+		#pass
 		# Some debug print statements
 		# These print statements are to see what the global position of each other player
 		#   I'm not sure how to reference the enemey's location atm
 		#   I think something has to do with me not getting the reference to DummyEnemy properly
 		#		look into?
 		# Look into the look_at() function as well
-		#print("idle: dummy_enemy location: " + str(state_machine.dummy_enemy.get_global_position()))
-		#print("idle: player_1 location: " + str(state_machine.animated_sprite_2d.get_global_position()))	
+		print("idle: dummy_enemy location: " + str(owner.dummy_enemy_reference.global_position))
+		print("idle: player_1 location: " + str(state_machine.animated_sprite_2d.global_position))	
 	
 	if Input.is_action_just_pressed("jump_neutral"):
 		# We can use a msg dictionary to tell the

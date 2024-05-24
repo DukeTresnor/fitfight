@@ -1,5 +1,6 @@
 extends State
 
+# References to player_1's various hitboxes
 @onready var attack_light_collision = $"../../AttackLightCollision"
 
 var attack_light_repeat_count = 0
@@ -29,7 +30,7 @@ func update(delta: float) -> void:
 	if state_machine.animated_sprite_2d.get_frame() >= 4:
 		attack_light_collision.get_node("AttackLightHitBox").disabled = true
 		
-	# Attack Light is repeatable
+	# Attack Light is repeatable up to 3 times (might be up to 4 times...)
 	if Input.is_action_just_pressed("attack_light") && attack_light_repeat_count <= 3:
 		# Reset the animation
 		state_machine.animated_sprite_2d.set_frame(0)

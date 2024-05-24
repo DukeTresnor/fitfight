@@ -21,10 +21,7 @@ signal transitioned(state_name)
 @onready var animation_player = $"../AnimationPlayer"
 
 
-# Reference to the dummy_enemy. Eventually this would be the other player,
-#   but I'm not sure -- it would depend on how I implemented 2 players
-# Probably need to rename Player1 to player as well?
-@onready var dummy_enemy = $"../DummyEnemy"
+
 
 func _ready() -> void:
 	#yield(owner, "ready")

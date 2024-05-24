@@ -1,9 +1,18 @@
 extends CharacterBody2D
 
-
+const MAX_HEALTH: int = 100			# Is an int
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 const JUMP_IMPULSE = 450.0
+
+
+# Reference to the dummy_enemy. Eventually this would be the other player,
+#   but I'm not sure -- it would depend on how I implemented 2 players
+# Probably need to rename Player1 to player as well?
+@onready var dummy_enemy_reference = $"../DummyEnemy"
+
+
+var current_health = MAX_HEALTH
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")

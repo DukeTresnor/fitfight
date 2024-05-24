@@ -1,9 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://c5xrq6275uyc8"]
+[gd_scene load_steps=6 format=3 uid="uid://c5xrq6275uyc8"]
 
 [ext_resource type="PackedScene" uid="uid://f8u28dr1d608" path="res://scenes/player_1.tscn" id="1_lm0sm"]
 [ext_resource type="PackedScene" uid="uid://3ig4tjixmgys" path="res://scenes/dummy_enemy.tscn" id="2_fr740"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_o1im3"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_rngcx"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_172ku"]
 
 [node name="Game" type="Node2D"]
 
@@ -19,6 +23,16 @@ position = Vector2(33, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 shape = SubResource("WorldBoundaryShape2D_o1im3")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-300, 0)
+rotation = 1.5708
+shape = SubResource("WorldBoundaryShape2D_rngcx")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(300, 0)
+rotation = -1.5708
+shape = SubResource("WorldBoundaryShape2D_172ku")
 
 [node name="DummyEnemy" parent="." groups=["debug_enemies"] instance=ExtResource("2_fr740")]
 position = Vector2(178, -80)
