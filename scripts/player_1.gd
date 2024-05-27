@@ -12,7 +12,7 @@ const JUMP_IMPULSE = 450.0
 @onready var dummy_enemy_reference = $"../DummyEnemy"
 
 
-var current_health = MAX_HEALTH
+@onready var current_health = MAX_HEALTH
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")

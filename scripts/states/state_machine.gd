@@ -31,7 +31,6 @@ func _ready() -> void:
 	for child in get_children():
 		if child is State:
 			child.state_machine = self
-			
 		
 	# This call doesn't work, getting a Null error	
 	# Setting up an enemy on startup. With two players this should do something

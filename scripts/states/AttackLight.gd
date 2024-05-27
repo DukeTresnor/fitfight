@@ -1,6 +1,17 @@
 extends State
 
-# References to player_1's various hitboxes
+
+# Not sure if this is correct...
+signal light_attack_hit(light_attack_damage, light_attack_pushback)
+signal light_attack_blocked(light_attack_pushback, light_attack_block_pushback)
+
+# AttackLight constants. Change to load from some character holder script
+const ATTACK_LIGHT_DAMAGE: int = 5
+const ATTACK_LIGHT_PUSHBACK: int = 1
+# This will be some modifier to the base knockback above that is applied on block
+const ATTACK_LIGHT_BLOCK_PUSHBACK: int = 1
+
+# References to player_1's hitboxes for the AttackLightCollision Area2D node
 @onready var attack_light_collision = $"../../AttackLightCollision"
 
 # Get a reference to the player's state_machine in order to check its flip_h property
@@ -19,7 +30,8 @@ func enter(_msg := {}) -> void:
 	#   state machine node)
 	# make sure that these hit and hurt boxes are only active for a specific number of
 	#   frames
-	#attack_light_collision.get_node("AttackLightHitBox").disabled = false
+	# Not sure if I need to turn off the attacklighthitbox here
+	attack_light_collision.get_node("AttackLightHitBox").disabled = true
 	attack_light_collision.get_node("AttackLightHurtBox").disabled = false
 	
 func update(delta: float) -> void:
@@ -73,8 +85,6 @@ func _on_animated_sprite_2d_frame_changed():
 	pass
 
 
-
-
 func _on_animated_sprite_2d_animation_finished():
 	# When the animated sprite 2d node's animation property finishes, check if we're 
 	#   in the attack_light animation
@@ -99,4 +109,18 @@ func exit() -> void:
 func _on_attack_light_collision_body_entered(body):
 	if state_machine.animated_sprite_2d.get_animation() == "attack_light":
 		if body.is_in_group("debug_enemies"):
-			print("attack_light: light attack collided with debug_enemies member")
+			#print("attack_light: dummy enemy is blocking " + str(body.is_dummy_blocking))
+			print("attack_light: The opponent is blocking: " + str(owner.dummy_enemy_reference.is_dummy_blocking))
+			if owner.dummy_enemy_reference.is_dummy_blocking:
+				print("attack_light: light attack collided with debug_enemeies member, but they blocked")
+				# send block signal
+				light_attack_blocked.emit(ATTACK_LIGHT_PUSHBACK, ATTACK_LIGHT_BLOCK_PUSHBACK)
+			else:
+				print("attack_light: light attack collided with debug_enemies member")
+				# send attack signal
+				light_attack_hit.emit(ATTACK_LIGHT_DAMAGE, ATTACK_LIGHT_PUSHBACK)
+				
+			# This is good, still need to connect these signals to the dummy_enemy script
+			#   so that it's properly referenced
+			# how do I do this? Probably have to do it manually with the connect() function
+			#   hopefully I can use the editor...
