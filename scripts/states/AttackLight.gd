@@ -2,14 +2,16 @@ extends State
 
 
 # Not sure if this is correct...
-signal light_attack_hit(light_attack_damage, light_attack_pushback)
-signal light_attack_blocked(light_attack_pushback, light_attack_block_pushback)
+signal light_attack_hit(light_attack_damage, light_attack_pushback, attack_light_hitstun, attack_light_block_pushback, attack_light_blockstun)
+#signal light_attack_blocked(light_attack_pushback, light_attack_block_pushback)
 
 # AttackLight constants. Change to load from some character holder script
 const ATTACK_LIGHT_DAMAGE: int = 5
 const ATTACK_LIGHT_PUSHBACK: int = 1
+const ATTACK_LIGHT_HITSTUN: int = 1
 # This will be some modifier to the base knockback above that is applied on block
 const ATTACK_LIGHT_BLOCK_PUSHBACK: int = 1
+const ATTACK_LIGHT_BLOCKSTUN: int = 1
 
 # References to player_1's hitboxes for the AttackLightCollision Area2D node
 @onready var attack_light_collision = $"../../AttackLightCollision"
@@ -110,15 +112,16 @@ func _on_attack_light_collision_body_entered(body):
 	if state_machine.animated_sprite_2d.get_animation() == "attack_light":
 		if body.is_in_group("debug_enemies"):
 			#print("attack_light: dummy enemy is blocking " + str(body.is_dummy_blocking))
-			print("attack_light: The opponent is blocking: " + str(owner.dummy_enemy_reference.is_dummy_blocking))
-			if owner.dummy_enemy_reference.is_dummy_blocking:
-				print("attack_light: light attack collided with debug_enemeies member, but they blocked")
-				# send block signal
-				light_attack_blocked.emit(ATTACK_LIGHT_PUSHBACK, ATTACK_LIGHT_BLOCK_PUSHBACK)
-			else:
-				print("attack_light: light attack collided with debug_enemies member")
-				# send attack signal
-				light_attack_hit.emit(ATTACK_LIGHT_DAMAGE, ATTACK_LIGHT_PUSHBACK)
+			#print("attack_light: The opponent is blocking: " + str(owner.dummy_enemy_reference.is_dummy_blocking))
+			#if owner.dummy_enemy_reference.is_dummy_blocking:
+			#	print("attack_light: light attack collided with debug_enemeies member, but they blocked")
+			#	# send block signal
+			#	light_attack_blocked.emit(ATTACK_LIGHT_PUSHBACK, ATTACK_LIGHT_BLOCK_PUSHBACK)
+			#else:
+			#	print("attack_light: light attack collided with debug_enemies member")
+			#	# send attack signal
+			#	light_attack_hit.emit(ATTACK_LIGHT_DAMAGE, ATTACK_LIGHT_PUSHBACK)
+			light_attack_hit.emit(ATTACK_LIGHT_DAMAGE, ATTACK_LIGHT_PUSHBACK, ATTACK_LIGHT_HITSTUN, ATTACK_LIGHT_BLOCK_PUSHBACK, ATTACK_LIGHT_BLOCKSTUN)
 				
 			# This is good, still need to connect these signals to the dummy_enemy script
 			#   so that it's properly referenced

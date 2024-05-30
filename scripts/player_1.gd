@@ -1,5 +1,8 @@
 extends CharacterBody2D
 
+signal attack_collision(attack_damage, attack_pushback, attack_hitstun, \
+						attack_block_pushback, attack_blockstun)
+
 const MAX_HEALTH: int = 100			# Is an int
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
@@ -40,3 +43,12 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 		#velocity.x = move_toward(velocity.x, 0, SPEED)
 #
 	#move_and_slide()
+
+
+func _on_attack_light_light_attack_hit(attack_light_damage, attack_light_pushback, \
+									attack_light_hitstun, attack_light_block_pushback, \
+									attack_light_blockstun):
+#signal light_attack_hit(light_attack_damage, light_attack_pushback, attack_light_hitstun,
+#attack_light_block_pushback, attack_light_blockstun)
+	attack_collision.emit(attack_light_damage, attack_light_pushback, attack_light_hitstun, \
+							attack_light_block_pushback, attack_light_blockstun)

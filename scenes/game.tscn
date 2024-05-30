@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://c5xrq6275uyc8"]
+[gd_scene load_steps=7 format=3 uid="uid://c5xrq6275uyc8"]
 
 [ext_resource type="PackedScene" uid="uid://f8u28dr1d608" path="res://scenes/player_1.tscn" id="1_lm0sm"]
 [ext_resource type="PackedScene" uid="uid://3ig4tjixmgys" path="res://scenes/dummy_enemy.tscn" id="2_fr740"]
+[ext_resource type="PackedScene" uid="uid://cjvjj2ga8v5yr" path="res://scenes/health_bar.tscn" id="3_ge6l5"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_o1im3"]
 
@@ -36,3 +37,17 @@ shape = SubResource("WorldBoundaryShape2D_172ku")
 
 [node name="DummyEnemy" parent="." groups=["debug_enemies"] instance=ExtResource("2_fr740")]
 position = Vector2(178, -80)
+
+[node name="Player1HealthBar" parent="." instance=ExtResource("3_ge6l5")]
+offset_left = -241.0
+offset_top = -208.0
+offset_right = -1.0
+offset_bottom = -198.0
+
+[node name="DummyEnemyHealthBar" parent="." instance=ExtResource("3_ge6l5")]
+offset_left = 71.0
+offset_top = -208.0
+offset_right = 311.0
+offset_bottom = -198.0
+
+[connection signal="attack_collision" from="Player1" to="DummyEnemy" method="_on_player_1_attack_collision"]
