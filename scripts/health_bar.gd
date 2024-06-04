@@ -5,14 +5,27 @@ extends ProgressBar
 
 # : set = _set_health is the special syntax to create a setter or getter function
 var health = 0 : set = _set_health
+
+
+# Not sure here? trying to fix null reference error...
+func _ready():
+	damage_bar.max_value = 0
+
+
+# \/ ??
 # A function that matches the value for the set declaration needs to be declared as well
 func _set_health(new_health):
+	
+	
 	# store previous health
+	# var old_var = things
 	var previous_health = health
 	# get the new health, making sure that it isn't above the max health
+	
 	health = min(max_value, new_health)
 	# set HealthBar's value parameter to our new health
 	value = health
+
 
 	# If health goes to 0 or below, despawn the health bar
 	# probably don't want this?
@@ -34,9 +47,6 @@ func init_health(_health):
 	health = _health
 	max_value = health
 	value = health
-	# Getting a null error here:
-	#   "Invalid set index 'max_value' (on base: 'Nil') with value of type 'float'."
-	# This is an issue with the reference to the DamageBar, start there next time
 	damage_bar.max_value = health
 	damage_bar.value = health
 

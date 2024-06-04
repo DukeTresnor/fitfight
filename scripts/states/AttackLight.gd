@@ -13,6 +13,8 @@ const ATTACK_LIGHT_HITSTUN: int = 1
 const ATTACK_LIGHT_BLOCK_PUSHBACK: int = 1
 const ATTACK_LIGHT_BLOCKSTUN: int = 1
 
+const ATTACK_LIGHT_REPEAT_NUMBER: int = 0
+
 # References to player_1's hitboxes for the AttackLightCollision Area2D node
 @onready var attack_light_collision = $"../../AttackLightCollision"
 
@@ -40,16 +42,18 @@ func update(delta: float) -> void:
 	#if state_machine.animated_sprite_2d.get_animation() == "attack_light":
 		
 	
-	# turn the hitbox on at frame 1
-	if state_machine.animated_sprite_2d.get_frame() == 1:
+	# turn the hitbox on at frame 3
+	if state_machine.animated_sprite_2d.get_frame() == 3:
 		attack_light_collision.get_node("AttackLightHitBox").disabled = false
 	
-	# turn the hitbox off at and after frame 4
-	if state_machine.animated_sprite_2d.get_frame() >= 4:
+	# turn the hitbox off at and after frame 5
+	if state_machine.animated_sprite_2d.get_frame() >= 5:
 		attack_light_collision.get_node("AttackLightHitBox").disabled = true
 		
 	# Attack Light is repeatable up to 3 times (might be up to 4 times...)
-	if Input.is_action_just_pressed("attack_light") && attack_light_repeat_count <= 3:
+	# Change to 0 to prevent this ability for the moment
+	if Input.is_action_just_pressed("attack_light") && attack_light_repeat_count < ATTACK_LIGHT_REPEAT_NUMBER \
+			&& state_machine.animated_sprite_2d.get_frame() >= 3:
 		# Reset the animation
 		state_machine.animated_sprite_2d.set_frame(0)
 		# Transition to AttackLight

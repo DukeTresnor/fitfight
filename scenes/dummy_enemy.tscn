@@ -1,11 +1,55 @@
-[gd_scene load_steps=22 format=3 uid="uid://3ig4tjixmgys"]
+[gd_scene load_steps=34 format=3 uid="uid://3ig4tjixmgys"]
 
 [ext_resource type="Texture2D" uid="uid://bo2r7vdupsilo" path="res://assets/sprites/youmu_konpaku_spritesheet.png" id="1_aw7yu"]
 [ext_resource type="Script" path="res://scripts/dummy_enemy.gd" id="1_fjhju"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_qg4by"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_rvhm5"]
 atlas = ExtResource("1_aw7yu")
-region = Rect2(0, 576, 288, 144)
+region = Rect2(0, 1008, 288, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1vc8b"]
+atlas = ExtResource("1_aw7yu")
+region = Rect2(288, 1008, 288, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cwru6"]
+atlas = ExtResource("1_aw7yu")
+region = Rect2(576, 1008, 288, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uboc3"]
+atlas = ExtResource("1_aw7yu")
+region = Rect2(864, 1008, 288, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0umj2"]
+atlas = ExtResource("1_aw7yu")
+region = Rect2(1152, 1008, 288, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ww1d"]
+atlas = ExtResource("1_aw7yu")
+region = Rect2(1440, 1008, 288, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0e4hu"]
+atlas = ExtResource("1_aw7yu")
+region = Rect2(1728, 1008, 288, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nvjdn"]
+atlas = ExtResource("1_aw7yu")
+region = Rect2(0, 144, 288, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tlmyv"]
+atlas = ExtResource("1_aw7yu")
+region = Rect2(288, 144, 288, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2jklm"]
+atlas = ExtResource("1_aw7yu")
+region = Rect2(576, 144, 288, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ewg37"]
+atlas = ExtResource("1_aw7yu")
+region = Rect2(864, 144, 288, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_438xr"]
+atlas = ExtResource("1_aw7yu")
+region = Rect2(1152, 144, 288, 144)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oylow"]
 atlas = ExtResource("1_aw7yu")
@@ -71,9 +115,47 @@ region = Rect2(2016, 0, 288, 144)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_qg4by")
+"texture": SubResource("AtlasTexture_rvhm5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1vc8b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cwru6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uboc3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0umj2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ww1d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0e4hu")
 }],
-"loop": true,
+"loop": false,
+"name": &"debug_attack",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nvjdn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tlmyv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2jklm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ewg37")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_438xr")
+}],
+"loop": false,
 "name": &"debug_block",
 "speed": 10.0
 }, {
@@ -136,6 +218,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qrl45"]
 size = Vector2(58, 81)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hlgt6"]
+size = Vector2(84, 24)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wd8jh"]
 size = Vector2(88, 56)
 
@@ -146,7 +231,7 @@ script = ExtResource("1_fjhju")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ri6xx")
-animation = &"debug_idle"
+animation = &"debug_block"
 autoplay = "debug_idle"
 flip_h = true
 
@@ -156,7 +241,14 @@ shape = SubResource("RectangleShape2D_qrl45")
 
 [node name="DummyBoxCollision" type="Area2D" parent="."]
 
+[node name="DummyHitBox" type="CollisionShape2D" parent="DummyBoxCollision"]
+position = Vector2(-57, 19)
+shape = SubResource("RectangleShape2D_hlgt6")
+disabled = true
+
 [node name="DummyHurtBox" type="CollisionShape2D" parent="DummyBoxCollision"]
 position = Vector2(-57, 33)
 shape = SubResource("RectangleShape2D_wd8jh")
 disabled = true
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

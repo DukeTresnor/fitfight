@@ -379,7 +379,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2qvxy"]
-size = Vector2(45.25, 76.5)
+size = Vector2(51, 80.25)
 
 [sub_resource type="Animation" id="Animation_f3qta"]
 length = 0.001
@@ -590,12 +590,12 @@ script = ExtResource("1_fxfkj")
 texture_filter = 1
 position = Vector2(1, -72)
 sprite_frames = SubResource("SpriteFrames_v6rfw")
-animation = &"idle"
+animation = &"attack_light"
 autoplay = "idle"
 frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(10, -39)
+position = Vector2(11.5, -40.875)
 shape = SubResource("RectangleShape2D_2qvxy")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

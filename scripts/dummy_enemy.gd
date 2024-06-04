@@ -11,6 +11,9 @@ const MAX_HEALTH: int = 100			# Is an int
 @onready var dummy_animated_sprite_2d = $AnimatedSprite2D
 @onready var is_dummy_blocking: bool = false
 @onready var dummy_enemy_health_bar = $"../DummyEnemyHealthBar"
+@onready var dummy_box_collision = $DummyBoxCollision
+
+
 
 
 var current_health = MAX_HEALTH
@@ -24,6 +27,8 @@ func _ready():
 	# Initialize the dummy enemy's health
 	dummy_enemy_health_bar.init_health(MAX_HEALTH)
 
+# This is the dummy version for update? not quite sure difference between update
+#   and process at the moment
 func _process(delta):
 	#dummy_animated_sprite_2d.play(("debug_idle"))
 
@@ -46,6 +51,19 @@ func _process(delta):
 		#dummy_animated_sprite_2d.play(("debug_idle"))
 		is_dummy_blocking = false
 		
+	# --------------------------------------------- ]
+
+	# [ ---------------------------------------------
+	# Attack code block for dummy enemy
+	if Input.is_action_just_pressed("debug_dummy_attack"):
+		# Play debug_attack animation
+		dummy_animated_sprite_2d.play("debug_attack")
+		
+		# Turn on hitboxes
+		dummy_box_collision.get_node("DummyHitBox").disabled = false
+		dummy_box_collision.get_node("DummyHurtBox").disabled = false
+		
+		#pass
 	# --------------------------------------------- ]
 
 
@@ -95,5 +113,28 @@ func _on_player_1_attack_collision(attack_damage, attack_pushback, attack_hitstu
 		print("dummy_enemy: I got hit! I took " + str(attack_damage) + " damage")
 		print("dummy_enemy: I got pushed back " + str(attack_pushback) + " units")
 		print("dummy_enemy: I'm in hitstun for " + str(attack_hitstun) + " frames")
-	
+		
+		# change health here? or send a signal
+		dummy_enemy_health_bar._set_health(dummy_enemy_health_bar.health - attack_damage)
 
+
+# function that's called when dummy attack animation finishes
+func _on_animated_sprite_2d_animation_finished():
+	
+	# Check if the animation that finished was the dummy_attack animation
+	if dummy_animated_sprite_2d.get_animation() == "debug_attack":
+		# Disable the dummy attack hit and hurtboxes
+		dummy_box_collision.get_node("DummyHitBox").disabled = true
+		dummy_box_collision.get_node("DummyHurtBox").disabled = true
+		
+		# Return to the debug idle animation
+		dummy_animated_sprite_2d.play("debug_idle")
+				
+		#pass
+	
+	# Check if the animation is debug_hit
+	if (dummy_animated_sprite_2d.get_animation() == "debug_hit" || \
+		dummy_animated_sprite_2d.get_animation() == "debug_block"):
+		
+		dummy_animated_sprite_2d.play("debug_idle")
+		
