@@ -1,7 +1,18 @@
 extends CharacterBody2D
 
+
+signal dummy_attack_hit(attack_damage, attack_pushback, attack_hitstun, \
+						attack_block_pushback, attack_blockstun)
+
+
 const MAX_HEALTH: int = 100			# Is an int
 
+# Dummy attack constants
+const dummy_attack_damage: int = 5
+const dummy_attack_pushback: int = 1
+const dummy_attack_hitstun: int = 1
+const dummy_attack_block_pushback: int = 1
+const dummy_attack_blockstun: int = 1
 
 
 
@@ -21,6 +32,9 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var debug_player_pos
 var debug_dummy_pos
 var is_alive: bool = true
+
+
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -118,6 +132,8 @@ func _on_player_1_attack_collision(attack_damage, attack_pushback, attack_hitstu
 		dummy_enemy_health_bar._set_health(dummy_enemy_health_bar.health - attack_damage)
 
 
+
+
 # function that's called when dummy attack animation finishes
 func _on_animated_sprite_2d_animation_finished():
 	
@@ -138,3 +154,17 @@ func _on_animated_sprite_2d_animation_finished():
 		
 		dummy_animated_sprite_2d.play("debug_idle")
 		
+
+# Because I'm not using a state machine for the dummy enemy, I can send this directly
+#   to the player
+#   When I implement this with 2 players, I need to have the full structure
+func _on_dummy_box_collision_body_entered(body):
+	if dummy_animated_sprite_2d.get_animation() == "debug_attack":
+		if body.is_in_group("player_1"):
+			print("dummy_enemy: body collision with: " + str(body))
+			
+			dummy_attack_hit.emit(dummy_attack_damage, dummy_attack_pushback, \
+								dummy_attack_hitstun, dummy_attack_block_pushback, \
+								dummy_attack_blockstun)
+
+

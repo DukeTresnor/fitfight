@@ -7,6 +7,7 @@ extends Node
 #   state machine's transition_to() function
 var state_machine = null
 
+
 # get a reference to the player's animation sprite 2d component
 # not sure if this is the proper place to put the reference
 #@onready var animated_sprite_2d = $"../AnimatedSprite2D"
@@ -37,6 +38,12 @@ func physics_update(_delta: float) -> void:
 #   the functions that extend this need to have some sort of constructions?
 func enter(_msg := {}) -> void:
 	pass
+
+func collision_check(attack_damage, attack_pushback, attack_hitstun, \
+					attack_block_pushback, attack_blockstun) -> void:
+	
+	print("state: You might be missing some specific state's handling of collision check")
+	#pass
 
 
 # Virtual function. Called by the state machine before changing the active state. Use this function

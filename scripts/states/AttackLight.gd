@@ -2,8 +2,11 @@ extends State
 
 
 # Not sure if this is correct...
-signal light_attack_hit(light_attack_damage, light_attack_pushback, attack_light_hitstun, attack_light_block_pushback, attack_light_blockstun)
+signal light_attack_hit(light_attack_damage, light_attack_pushback, \
+	attack_light_hitstun, attack_light_block_pushback, attack_light_blockstun)
 #signal light_attack_blocked(light_attack_pushback, light_attack_block_pushback)
+
+signal took_damage_in_attack_light(damage)
 
 # AttackLight constants. Change to load from some character holder script
 const ATTACK_LIGHT_DAMAGE: int = 5
@@ -71,6 +74,35 @@ func update(delta: float) -> void:
 	#print("attack_light: frame number is " + str(state_machine.animated_sprite_2d.get_frame()))
 
 	#print("attack_light: hitbox is disabled? " + str(attack_light_collision.get_node("AttackLightHitBox").disabled))
+
+func collision_check(attack_damage, attack_pushback, attack_hitstun, \
+					attack_block_pushback, attack_blockstun) -> void:
+	if state_machine.animated_sprite_2d.get_animation() == "attack_light":
+		print("attack_light: player_1 is blocking: " + str(owner.is_player_1_blocking))
+	
+		print("attack_light: collision_check: attack_damage is " + str(attack_damage) \
+			+ ", attack_pushback is " + str(attack_pushback) \
+			+ ", attack_hitstun is " + str(attack_hitstun) \
+			+ ", attack_block_pushback is " + str(attack_block_pushback) \
+			+ ", attack_blockstun is " + str(attack_blockstun))
+			
+	
+		if owner.is_player_1_blocking:
+			# Transition to blocking state (which plays blocking) or play the blocking animation
+			print("attack_light: I blocked. I got pushed back " + str(attack_block_pushback) \
+					+ " units")
+			print("attack_light: I'm in blockston for " + str(attack_blockstun) + " frames")
+		else:
+			# Transition to getting hit state (which plays getting hit) or play the getting hit animation
+			print("attack_light: I got hit! I took " + str(attack_damage) + " damage")
+			print("attack_light: I got pushed back " + str(attack_pushback) + " units")
+			print("attack_light: I'm in hitstun for " + str(attack_hitstun) + " frames")
+			
+			took_damage_in_attack_light.emit(attack_damage)
+
+
+
+
 
 func _on_animated_sprite_2d_frame_changed():
 	# I think I found a solution, keep this here for now but remove once you start
