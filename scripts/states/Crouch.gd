@@ -78,6 +78,9 @@ func collision_check(attack_damage, attack_pushback, attack_hitstun, \
 			print("crouch: I blocked. I got pushed back " + str(attack_block_pushback) \
 					+ " units")
 			print("crouch: I'm in blockston for " + str(attack_blockstun) + " frames")
+			state_machine.transition_to("Stun", {do_block_crouch = true, \
+										pushback = attack_block_pushback, \
+										stun = attack_blockstun})
 		else:
 			# Transition to getting hit state (which plays getting hit) or play the getting hit animation
 			print("crouch: I got hit! I took " + str(attack_damage) + " damage")
@@ -85,3 +88,6 @@ func collision_check(attack_damage, attack_pushback, attack_hitstun, \
 			print("crouch: I'm in hitstun for " + str(attack_hitstun) + " frames")
 			
 			took_damage_in_crouch.emit(attack_damage)
+			state_machine.transition_to("Stun", {do_hit_crouch = true, \
+										pushback = attack_pushback, \
+										stun = attack_hitstun})

@@ -87,7 +87,6 @@ func update(delta: float) -> void:
 		# We can use a msg dictionary to tell the
 		#   next state that we want to do neutral
 		#   jump
-		
 		state_machine.transition_to("Jump", {do_jump = true})
 	elif Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right"):
 			state_machine.transition_to("Walk")
@@ -119,6 +118,11 @@ func collision_check(attack_damage, attack_pushback, attack_hitstun, \
 			print("idle: I blocked. I got pushed back " + str(attack_block_pushback) \
 					+ " units")
 			print("idle: I'm in blockstun for " + str(attack_blockstun) + " frames")
+			# Enter the stun state
+			state_machine.transition_to("Stun", {do_block_stand = true, \
+										pushback = attack_block_pushback, \
+										stun = attack_blockstun})
+			
 		else:
 			# Transition to getting hit state (which plays getting hit) or play the getting hit animation
 			print("idle: I got hit! I took " + str(attack_damage) + " damage")
@@ -128,7 +132,12 @@ func collision_check(attack_damage, attack_pushback, attack_hitstun, \
 			# Change the player's health since they took damage
 			#owner.player_1_health_bar._set_health(owner.player_1_health_bar.health - attack_damage)
 			took_damage_in_idle.emit(attack_damage)
-			# Play the animation for getting hit while standing
+			# Enter the Stun state
+			state_machine.transition_to("Stun", {do_hit_stand = true, \
+										pushback = attack_pushback, \
+										stun = attack_hitstun})
+	
+	
 	
 	
 func _on_player_1_enemy_attack_collision(attack_damage, attack_pushback, attack_hitstun, attack_block_pushback, attack_blockstun):

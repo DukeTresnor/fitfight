@@ -114,7 +114,7 @@ func update(delta: float) -> void:
 
 
 
-# This is the player hitting the enemy
+# This is the player hitting the enemy with light attack
 func _on_attack_light_light_attack_hit(attack_light_damage, attack_light_pushback, \
 									attack_light_hitstun, attack_light_block_pushback, \
 									attack_light_blockstun):
@@ -125,6 +125,7 @@ func _on_attack_light_light_attack_hit(attack_light_damage, attack_light_pushbac
 
 
 # This is when the enemy (player 2) hits the player (player 1)
+#   ie whenever player 2 hits player 1 with a hitbox
 # With a player_2, this should be ...
 # func _on_player_2_attack_collision(signal parameters)
 func _on_dummy_enemy_dummy_attack_hit(attack_damage, attack_pushback, attack_hitstun, attack_block_pushback, attack_blockstun):
@@ -143,6 +144,8 @@ func _on_dummy_enemy_dummy_attack_hit(attack_damage, attack_pushback, attack_hit
 	#   group
 	# Add arguments to the junk_virtual function as additional params to this
 	#   call_group() function
+	# Get the group state_machine_nodes that exist in the current tree, 
+	#   and for each node call its collision_check() function if it has one
 	get_tree().call_group("state_machine_nodes", "collision_check", \
 							attack_damage, attack_pushback, attack_hitstun, \
 							attack_block_pushback, attack_blockstun)

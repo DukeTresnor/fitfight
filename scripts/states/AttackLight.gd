@@ -43,7 +43,7 @@ func enter(_msg := {}) -> void:
 	
 func update(delta: float) -> void:
 	#if state_machine.animated_sprite_2d.get_animation() == "attack_light":
-		
+	
 	
 	# turn the hitbox on at frame 3
 	if state_machine.animated_sprite_2d.get_frame() == 3:
@@ -92,6 +92,8 @@ func collision_check(attack_damage, attack_pushback, attack_hitstun, \
 			print("attack_light: I blocked. I got pushed back " + str(attack_block_pushback) \
 					+ " units")
 			print("attack_light: I'm in blockston for " + str(attack_blockstun) + " frames")
+			print("attack_light: I blocked, but I'm in attack_light, which means I can't block")
+			print("attack_light: debugging, I should take damage")
 		else:
 			# Transition to getting hit state (which plays getting hit) or play the getting hit animation
 			print("attack_light: I got hit! I took " + str(attack_damage) + " damage")
@@ -146,6 +148,7 @@ func exit() -> void:
 #   inside the given body
 func _on_attack_light_collision_body_entered(body):
 	if state_machine.animated_sprite_2d.get_animation() == "attack_light":
+		# Replace "debug_enemies" with enemy, player 2, etc?
 		if body.is_in_group("debug_enemies"):
 			#print("attack_light: dummy enemy is blocking " + str(body.is_dummy_blocking))
 			#print("attack_light: The opponent is blocking: " + str(owner.dummy_enemy_reference.is_dummy_blocking))
