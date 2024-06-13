@@ -3,6 +3,11 @@ extends ProgressBar
 @onready var damage_bar = $DamageBar
 @onready var timer = $Timer
 
+# Testing basing the health bar positions on the camera2d, this a reference
+#   to the Camera2D in the scene
+#@onready var camera_2d = $"../Camera2D"
+
+
 # : set = _set_health is the special syntax to create a setter or getter function
 var health = 0 : set = _set_health
 
@@ -54,3 +59,4 @@ func init_health(_health):
 #   This should make the DamageBar match the HealthBar
 func _on_timer_timeout():
 	damage_bar.value = health
+

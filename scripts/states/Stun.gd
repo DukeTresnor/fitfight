@@ -68,9 +68,27 @@ func update(delta: float) -> void:
 
 
 	if stun_counter >= stun_duration:
-		stun_counter = 0
+		#stun_counter = 0
 		state_machine.transition_to(state_to_return_to)
 
 func physics_update(delta: float) -> void:
 	# Use delta in calculations determining how the player's should move 
+
+	'''
+	owner.velocity.x = owner.SPEED * input_direction_x
+	owner.velocity.y += owner.gravity * delta
+	#owner.velocity = owner.move_and_slide()
+	owner.move_and_slide()
+	'''
+	# Code from walk state to move the player, apply here appropriately
+	# I need to replace input_direction_x with the direction coming from 
+	#   the opposing player / dummy enemy
+
 	pass
+
+
+
+
+func exit() -> void:
+	stun_counter = 0
+	#pass

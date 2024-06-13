@@ -18,6 +18,9 @@ const ATTACK_LIGHT_BLOCKSTUN: int = 1
 
 const ATTACK_LIGHT_REPEAT_NUMBER: int = 0
 
+# This should be linked / matched to the player's attack_light animation
+const ATTACK_LIGHT_DURATION: int = 7
+
 # References to player_1's hitboxes for the AttackLightCollision Area2D node
 @onready var attack_light_collision = $"../../AttackLightCollision"
 
@@ -75,6 +78,8 @@ func update(delta: float) -> void:
 
 	#print("attack_light: hitbox is disabled? " + str(attack_light_collision.get_node("AttackLightHitBox").disabled))
 
+
+# Still need to implement stun transition logic for attacks
 func collision_check(attack_damage, attack_pushback, attack_hitstun, \
 					attack_block_pushback, attack_blockstun) -> void:
 	if state_machine.animated_sprite_2d.get_animation() == "attack_light":
@@ -103,6 +108,9 @@ func collision_check(attack_damage, attack_pushback, attack_hitstun, \
 			took_damage_in_attack_light.emit(attack_damage)
 
 
+func exit() -> void:
+	pass	
+		
 
 
 
@@ -139,9 +147,7 @@ func _on_animated_sprite_2d_animation_finished():
 		state_machine.transition_to("Idle")
 		
 	
-func exit() -> void:
-	pass	
-		
+
 		
 
 # Works so far, need to handle repeated attacks when the collision is already

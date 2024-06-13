@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://c5xrq6275uyc8"]
+[gd_scene load_steps=8 format=3 uid="uid://c5xrq6275uyc8"]
 
 [ext_resource type="PackedScene" uid="uid://f8u28dr1d608" path="res://scenes/player_1.tscn" id="1_lm0sm"]
 [ext_resource type="PackedScene" uid="uid://3ig4tjixmgys" path="res://scenes/dummy_enemy.tscn" id="2_fr740"]
 [ext_resource type="PackedScene" uid="uid://cjvjj2ga8v5yr" path="res://scenes/health_bar.tscn" id="3_ge6l5"]
+[ext_resource type="Script" path="res://scripts/camera_2D.gd" id="3_xurvh"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_o1im3"]
 
@@ -11,6 +12,13 @@
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_172ku"]
 
 [node name="Game" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(34, -55)
+zoom = Vector2(2, 2)
+script = ExtResource("3_xurvh")
 
 [node name="Player1HealthBar" parent="." instance=ExtResource("3_ge6l5")]
 offset_left = -241.0
@@ -26,10 +34,6 @@ offset_bottom = -198.0
 
 [node name="Player1" parent="." groups=["player_1"] instance=ExtResource("1_lm0sm")]
 position = Vector2(-12, -15)
-
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(34, -55)
-zoom = Vector2(2, 2)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 position = Vector2(33, 1)

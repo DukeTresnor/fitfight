@@ -29,7 +29,10 @@ const JUMP_IMPULSE = 450.0
 @onready var current_health = MAX_HEALTH
 
 # Reference to the Player1HealthBar
+# Needs to be adjusted if I adjust the parents / children of the player's
+#   health bar
 @onready var player_1_health_bar = $"../Player1HealthBar"
+#@onready var player_1_health_bar = $"../CanvasLayer/Player1HealthBar"
 
 # Reference to the player's animated sprite 2d node, to determine if the player
 #   is blocking
@@ -144,11 +147,17 @@ func _on_dummy_enemy_dummy_attack_hit(attack_damage, attack_pushback, attack_hit
 	#   group
 	# Add arguments to the junk_virtual function as additional params to this
 	#   call_group() function
+	
+	
+	
 	# Get the group state_machine_nodes that exist in the current tree, 
 	#   and for each node call its collision_check() function if it has one
 	get_tree().call_group("state_machine_nodes", "collision_check", \
 							attack_damage, attack_pushback, attack_hitstun, \
 							attack_block_pushback, attack_blockstun)
+	
+
+	
 	
 	# One alternative option is to just have an "enemy_attack_collision" signal for
 	#   each of the player's states
@@ -161,20 +170,17 @@ func _on_dummy_enemy_dummy_attack_hit(attack_damage, attack_pushback, attack_hit
 	#     Does this script even have access to the state machine?
 
 
-
-
+# Function block for taking damage signals
+# [ ---------------------------------------------------------------------
 func _on_idle_took_damage_in_idle(damage):
 	print("player_1: I took " + str(damage) + " damage when in idle")
 	#owner.player_1_health_bar._set_health(owner.player_1_health_bar.health - attack_damage)
 	player_1_health_bar._set_health(player_1_health_bar.health - damage)
 
-
-
 func _on_walk_took_damage_in_walk(damage):
 	print("player_1: I took " + str(damage) + " damage when in walk")
 	#owner.player_1_health_bar._set_health(owner.player_1_health_bar.health - attack_damage)
 	player_1_health_bar._set_health(player_1_health_bar.health - damage)
-
 
 func _on_jump_took_damage_in_jump(damage):
 	print("player_1: I took " + str(damage) + " damage when in jump")
@@ -190,3 +196,7 @@ func _on_attack_light_took_damage_in_attack_light(damage):
 	print("player_1: I took " + str(damage) + " damage when in attack_light")
 	#owner.player_1_health_bar._set_health(owner.player_1_health_bar.health - attack_damage)
 	player_1_health_bar._set_health(player_1_health_bar.health - damage)
+	
+# Each new state (attack or otherwise) should have an equivalent connected
+#   function here
+# --------------------------------------------------------------------- ]

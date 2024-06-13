@@ -90,7 +90,10 @@ func update(delta: float) -> void:
 		state_machine.transition_to("Jump", {do_jump = true})
 	elif Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right"):
 			state_machine.transition_to("Walk")
-	elif Input.is_action_pressed("crouch"):
+	# Excess logic checking here -- don't need the move left or right check?
+	elif Input.is_action_pressed("crouch") || \
+		(Input.is_action_pressed("crouch") && \
+			(Input.is_action_pressed("move_left") || Input.is_action_pressed("move_right"))):
 			state_machine.transition_to("Crouch")
 			
 	if Input.is_action_just_pressed("attack_light"):
@@ -103,7 +106,9 @@ func update(delta: float) -> void:
 
 func collision_check(attack_damage, attack_pushback, attack_hitstun, \
 					attack_block_pushback, attack_blockstun) -> void:
-	if state_machine.animated_sprite_2d.get_animation() == "idle":
+	if state_machine.animated_sprite_2d.get_animation() == "idle" \
+		|| state_machine.animated_sprite_2d.get_animation() == "hit_stand" \
+		|| state_machine.animated_sprite_2d.get_animation() == "block_stand":
 		print("idle: player_1 is blocking: " + str(owner.is_player_1_blocking))
 	
 		print("idle: collision_check: attack_damage is " + str(attack_damage) \

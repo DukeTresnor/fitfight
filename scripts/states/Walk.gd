@@ -33,7 +33,9 @@ func physics_update(delta: float) -> void:
 
 func collision_check(attack_damage, attack_pushback, attack_hitstun, \
 					attack_block_pushback, attack_blockstun) -> void:
-	if state_machine.animated_sprite_2d.get_animation() == "walk":
+	if state_machine.animated_sprite_2d.get_animation() == "walk" \
+		|| state_machine.animated_sprite_2d.get_animation() == "hit_stand" \
+		|| state_machine.animated_sprite_2d.get_animation() == "block_stand":
 		print("walk: player_1 is blocking: " + str(owner.is_player_1_blocking))
 	
 		print("walk: collision_check: attack_damage is " + str(attack_damage) \

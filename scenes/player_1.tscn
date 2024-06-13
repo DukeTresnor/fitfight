@@ -775,7 +775,7 @@ script = ExtResource("1_fxfkj")
 texture_filter = 1
 position = Vector2(1, -72)
 sprite_frames = SubResource("SpriteFrames_v6rfw")
-animation = &"hit_crouch"
+animation = &"block_air"
 autoplay = "idle"
 frame = 1
 
