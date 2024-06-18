@@ -25,8 +25,6 @@ func update(delta: float) -> void:
 		return
 
 	if owner.is_on_floor():
-
-		
 		
 		# [ ---------------------------------------------
 		# Code logic to switch the player based on location relative to the enemy

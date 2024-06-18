@@ -11,15 +11,14 @@ const MAX_ZOOM: float = 0.4
 @onready var dummy_enemy = $"../DummyEnemy"
 
 
-@onready var player_1_health_bar = $"../Player1HealthBar"
+#@onready var player_1_health_bar = $"../Player1HealthBar"
 #@onready var player_1_health_bar = $"../CanvasLayer/Player1HealthBar"
 
+#@onready var dummy_enemy_health_bar = $"../DummyEnemyHealthBar"
 
 var zoom_factor_x
 var zoom_factor_y
 var zoom_factor_main
-
-
 
 func _ready():
 	pass
@@ -30,7 +29,8 @@ func _process(delta):
 
 	# The global position of the camera is set to the average of the players' global positions
 	self.global_position = (player_1.global_position + dummy_enemy.global_position) * 0.5
-	print("camera_2D: camera global position: " + str(self.global_position))
+	#rint("camera_2D: camera global position: " + str(self.global_position))
+	
 
 	# Zoom adjustment block
 	# has the opposite behavior that i want
@@ -47,16 +47,23 @@ func _process(delta):
 	self.zoom = Vector2(1.0/zoom_factor_main, 1.0/zoom_factor_main)
 	
 
-	print("camera_2d: player halth bar location: " + str(player_1_health_bar.global_position))
-	print("camera_2d: camera_2d's screen center: " + str(self.get_viewport_rect().size / 2) )
+	#var testing_pos_x = self.get_viewport_rect().size.x / 2
+	#var testing_pos_y = self.get_viewport_rect().size.y / 2
 
-	var testing_pos_x = self.get_viewport_rect().size.x / 2
-	var testing_pos_y = self.get_viewport_rect().size.y / 2
+	#viewport_coord_x = self.get_viewport().size.x / 2
+	#viewport_coord_y = self.get_viewport().size.y / 2
+	
+	#target_player_1_health_bar_coord_x = viewport_coord_x - viewport_coord_x
+	#target_player_1_health_bar_coord_y = viewport_coord_y
 
+	#var testing_healt_pos: Vector2 = Vector2(50.0, -208)
+	#var testing_healt_pos: Vector2 = Vector2(target_player_1_health_bar_coord_x, \
+	#										target_player_1_health_bar_coord_y)
 
+	#player_1_health_bar.set_global_position(testing_healt_pos)
 
 	#player_1_health_bar.global_position = self.get_viewport_rect().size / 2
-	print("skjnvkdjfnjkdnvkdfn " + str(testing_pos_x))
+	#print("skjnvkdjfnjkdnvkdfn " + str(testing_pos_x))
 	#player_1_health_bar.global_position = Vector2(testing_pos_x, player_1_health_bar.global_position.y)
 	#player_1_health_bar.global_position = Vector2(testing_pos_x, testing_pos_y)
 	#player_1_health_bar.global_position = self.global_position

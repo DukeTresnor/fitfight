@@ -21,8 +21,10 @@ const dummy_attack_blockstun: int = 10
 # References attatched to the dummy_enemy
 @onready var dummy_animated_sprite_2d = $AnimatedSprite2D
 @onready var is_dummy_blocking: bool = false
-@onready var dummy_enemy_health_bar = $"../DummyEnemyHealthBar"
+#@onready var dummy_enemy_health_bar = $"../DummyEnemyHealthBar"
+@onready var dummy_enemy_health_bar = $"../CanvasLayer/DummyEnemyHealthBar"
 @onready var dummy_box_collision = $DummyBoxCollision
+
 
 
 

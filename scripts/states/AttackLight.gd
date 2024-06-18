@@ -129,7 +129,7 @@ func _on_animated_sprite_2d_frame_changed():
 	#if state_machine.animated_sprite_2d.get_animation() == "attack_light":
 		
 	#	print("attack_light: lsknsldmclkcmld")
-		
+		#print("attack light: getting frame count of attack: " + str(state_machine.animated_sprite_2d.get_frame()))	
 	pass
 
 

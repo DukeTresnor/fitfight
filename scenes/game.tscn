@@ -1,5 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://c5xrq6275uyc8"]
+[gd_scene load_steps=9 format=3 uid="uid://c5xrq6275uyc8"]
 
+[ext_resource type="Script" path="res://scripts/canvas_layer.gd" id="1_ii435"]
 [ext_resource type="PackedScene" uid="uid://f8u28dr1d608" path="res://scenes/player_1.tscn" id="1_lm0sm"]
 [ext_resource type="PackedScene" uid="uid://3ig4tjixmgys" path="res://scenes/dummy_enemy.tscn" id="2_fr740"]
 [ext_resource type="PackedScene" uid="uid://cjvjj2ga8v5yr" path="res://scenes/health_bar.tscn" id="3_ge6l5"]
@@ -14,23 +15,25 @@
 [node name="Game" type="Node2D"]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+script = ExtResource("1_ii435")
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(34, -55)
-zoom = Vector2(2, 2)
-script = ExtResource("3_xurvh")
-
-[node name="Player1HealthBar" parent="." instance=ExtResource("3_ge6l5")]
+[node name="Player1HealthBar" parent="CanvasLayer" instance=ExtResource("3_ge6l5")]
+visibility_layer = 7
 offset_left = -241.0
 offset_top = -208.0
 offset_right = -1.0
 offset_bottom = -198.0
 
-[node name="DummyEnemyHealthBar" parent="." instance=ExtResource("3_ge6l5")]
+[node name="DummyEnemyHealthBar" parent="CanvasLayer" instance=ExtResource("3_ge6l5")]
 offset_left = 71.0
 offset_top = -208.0
 offset_right = 311.0
 offset_bottom = -198.0
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(34, -55)
+zoom = Vector2(2, 2)
+script = ExtResource("3_xurvh")
 
 [node name="Player1" parent="." groups=["player_1"] instance=ExtResource("1_lm0sm")]
 position = Vector2(-12, -15)

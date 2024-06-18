@@ -31,8 +31,8 @@ const JUMP_IMPULSE = 450.0
 # Reference to the Player1HealthBar
 # Needs to be adjusted if I adjust the parents / children of the player's
 #   health bar
-@onready var player_1_health_bar = $"../Player1HealthBar"
-#@onready var player_1_health_bar = $"../CanvasLayer/Player1HealthBar"
+#@onready var player_1_health_bar = $"../Player1HealthBar"
+@onready var player_1_health_bar = $"../CanvasLayer/Player1HealthBar"
 
 # Reference to the player's animated sprite 2d node, to determine if the player
 #   is blocking
@@ -89,6 +89,9 @@ func update(delta: float) -> void:
 	print("player_1: is_player_1_blocking: " + str(is_player_1_blocking))
 	# --------------------------------------------- ]
 	'''
+	
+
+	
 	pass
 	
 

@@ -15,6 +15,7 @@ var health = 0 : set = _set_health
 # Not sure here? trying to fix null reference error...
 func _ready():
 	damage_bar.max_value = 0
+	print("health_bar: starting position: " + str(self.global_position))
 
 
 # \/ ??
