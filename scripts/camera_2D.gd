@@ -1,10 +1,18 @@
 extends Camera2D
 
 
-const ZOOM_FACTOR_X_ADJUSTMENT: int = 600
-const ZOOM_FACTOR_Y_ADJUSTMENT: int = 500
-const MAX_ZOOM: float = 0.4
+const ZOOM_FACTOR_X_ADJUSTMENT: int = 800
+const ZOOM_FACTOR_Y_ADJUSTMENT: int = 400
+#const ZOOM_FACTOR_Y_ADJUSTMENT: int = 400
 
+# Not sure about this logic, but the values are ok for now
+# [---------------------------
+# Becomes minimum zoom thanks to inverting the zoom calculation at the
+#   end of process()
+const MAX_ZOOM: float = 0.4
+# Becomes maximum zoom
+const MIN_ZOOM: float = 0.75
+# ---------------------------]
 
 @onready var player_1 = $"../Player1"
 # Replace with reference to player 2
@@ -37,7 +45,7 @@ func _process(delta):
 	# as players increase distance, zoom increases -> it should decrease
 	zoom_factor_x = abs(player_1.global_position.x - dummy_enemy.global_position.x) / ZOOM_FACTOR_X_ADJUSTMENT
 	zoom_factor_y = abs(player_1.global_position.y - dummy_enemy.global_position.y) / ZOOM_FACTOR_Y_ADJUSTMENT 
-	zoom_factor_main = max(max(zoom_factor_x, zoom_factor_y), MAX_ZOOM)
+	zoom_factor_main = min(max(max(zoom_factor_x, zoom_factor_y), MAX_ZOOM), MIN_ZOOM)
 	
 	# Debug for the camera
 	#print("camera_2d: zoom_factor_x: " + str(zoom_factor_x))
@@ -45,7 +53,8 @@ func _process(delta):
 	#print("camera_2s: zoom_factor_main: " +str(zoom_factor_main))
 	
 	self.zoom = Vector2(1.0/zoom_factor_main, 1.0/zoom_factor_main)
-	
+	#self.zoom = Vector2(1.0/zoom_factor_x, 1.0/zoom_factor_y)
+
 
 	#var testing_pos_x = self.get_viewport_rect().size.x / 2
 	#var testing_pos_y = self.get_viewport_rect().size.y / 2

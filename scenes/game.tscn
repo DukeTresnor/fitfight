@@ -1,8 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://c5xrq6275uyc8"]
+[gd_scene load_steps=11 format=3 uid="uid://c5xrq6275uyc8"]
 
 [ext_resource type="Script" path="res://scripts/canvas_layer.gd" id="1_ii435"]
 [ext_resource type="PackedScene" uid="uid://f8u28dr1d608" path="res://scenes/player_1.tscn" id="1_lm0sm"]
+[ext_resource type="Texture2D" uid="uid://ujto5hq3wqpr" path="res://assets/backgrounds/PC Computer - Touhou Hisoutensoku - Shore of Misty Lake.png" id="1_n5i5b"]
 [ext_resource type="PackedScene" uid="uid://3ig4tjixmgys" path="res://scenes/dummy_enemy.tscn" id="2_fr740"]
+[ext_resource type="Texture2D" uid="uid://dc0j67x3na7bu" path="res://assets/backgrounds/PC Computer - Touhou Hisoutensoku - Skies_crop.png" id="2_s7jhy"]
 [ext_resource type="PackedScene" uid="uid://cjvjj2ga8v5yr" path="res://scenes/health_bar.tscn" id="3_ge6l5"]
 [ext_resource type="Script" path="res://scripts/camera_2D.gd" id="3_xurvh"]
 
@@ -13,6 +15,24 @@
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_172ku"]
 
 [node name="Game" type="Node2D"]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+z_index = -1
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2(0, -324)
+texture = ExtResource("1_n5i5b")
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
+z_index = -2
+motion_scale = Vector2(0.5, 0.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2"]
+position = Vector2(0, -324)
+scale = Vector2(2.99154, 4.46245)
+texture = ExtResource("2_s7jhy")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 script = ExtResource("1_ii435")
@@ -42,15 +62,16 @@ position = Vector2(-12, -15)
 position = Vector2(33, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, 50)
 shape = SubResource("WorldBoundaryShape2D_o1im3")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(-300, 0)
+position = Vector2(-432, 0)
 rotation = 1.5708
 shape = SubResource("WorldBoundaryShape2D_rngcx")
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(300, 0)
+position = Vector2(432, 0)
 rotation = -1.5708
 shape = SubResource("WorldBoundaryShape2D_172ku")
 

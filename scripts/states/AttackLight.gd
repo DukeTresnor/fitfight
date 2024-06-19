@@ -21,6 +21,9 @@ const ATTACK_LIGHT_REPEAT_NUMBER: int = 0
 # This should be linked / matched to the player's attack_light animation
 const ATTACK_LIGHT_DURATION: int = 7
 
+const ATTACK_LIGHT_CANCELABLE_FRAME: int = 3
+
+
 # References to player_1's hitboxes for the AttackLightCollision Area2D node
 @onready var attack_light_collision = $"../../AttackLightCollision"
 
@@ -59,7 +62,7 @@ func update(delta: float) -> void:
 	# Attack Light is repeatable up to 3 times (might be up to 4 times...)
 	# Change to 0 to prevent this ability for the moment
 	if Input.is_action_just_pressed("attack_light") && attack_light_repeat_count < ATTACK_LIGHT_REPEAT_NUMBER \
-			&& state_machine.animated_sprite_2d.get_frame() >= 3:
+			&& state_machine.animated_sprite_2d.get_frame() >= ATTACK_LIGHT_CANCELABLE_FRAME:
 		# Reset the animation
 		state_machine.animated_sprite_2d.set_frame(0)
 		# Transition to AttackLight
@@ -69,7 +72,7 @@ func update(delta: float) -> void:
 		attack_light_repeat_count += 1
 		# debug print
 		print("attack_light: repeated attack")
-		if attack_light_repeat_count == 3:
+		if attack_light_repeat_count == ATTACK_LIGHT_REPEAT_NUMBER:
 			print("attack_light: reached maximum number of lights, wait till animation end")
 			
 	#attack_light_collision.get_node("AttackLightHitBox").disabled = false

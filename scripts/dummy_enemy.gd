@@ -7,14 +7,15 @@ signal dummy_attack_hit(attack_damage, attack_pushback, attack_hitstun, \
 
 const MAX_HEALTH: int = 100			# Is an int
 
-# Dummy attack constants
+# Dummy attack constants -- should be capitalized...
 const dummy_attack_damage: int = 5
 const dummy_attack_pushback: int = 1
-const dummy_attack_hitstun: int = 200
+const dummy_attack_hitstun: int = 20
 const dummy_attack_block_pushback: int = 1
 const dummy_attack_blockstun: int = 10
 
-
+# Dummy movement constants
+const DUMMY_SPEED: float = 300.0
 
 # References to Player1
 @onready var player_1_reference = $"../Player1"
@@ -47,8 +48,6 @@ func _ready():
 #   and process at the moment
 func _process(delta):
 	#dummy_animated_sprite_2d.play(("debug_idle"))
-
-	
 
 	# [ ---------------------------------------------
 	# Directional Blocking code block for dummy enemy
@@ -88,7 +87,18 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y += gravity * delta
 	
+	var dummy_input_direction_x: float = (
+		Input.get_action_strength("debug_dummy_move_right") \
+		- Input.get_action_strength("debug_dummy_move_left")
+	)
+
+	velocity.x = DUMMY_SPEED * dummy_input_direction_x
+	#velocity.y = gravity * delta
+	
 	move_and_slide()
+	
+
+
 	
 	# Not the solution to switching left or right based on player distance
 	# But setting up the reference works!
