@@ -71,4 +71,4 @@ func transition_to(target_state_name: String, msg: Dictionary = {}) -> void:
 	emit_signal("transitioned", state.name)
 	
 	# Debug
-	print("state_machine: I transitioned to " + target_state_name)
+	#print("state_machine: I transitioned to " + target_state_name)

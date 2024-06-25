@@ -3,6 +3,8 @@ extends State
 var pushback: int = 0
 var stun_counter: int = 0
 var stun_duration: int
+var push_direction_x: int = -1 # Figure out logic for this
+# Either get position information, flip status of a player, or collision information
 var state_to_return_to: String
 
 
@@ -72,8 +74,22 @@ func update(delta: float) -> void:
 		state_machine.transition_to(state_to_return_to)
 
 func physics_update(delta: float) -> void:
+	# Needs to be different than this
+	var propotional_debug = delta * pushback / stun_duration
+	
 	# Use delta in calculations determining how the player's should move 
+	# Needs logic or push_diretion_x -- should be based on direction the
+	#   attack came from or from the flipped state of the players
+	# Not sure if this is what I want at the moment or over time	
+	#owner.velocity.x = owner.SPEED * push_direction_x
+	owner.velocity.x = propotional_debug * push_direction_x
+	#owner.velocity.y += owner.gravity * delta
+	
+	owner.move_and_slide()
 
+	# Debug
+	print("stun: player velocity.x: " + str(owner.velocity.x))
+	
 	'''
 	owner.velocity.x = owner.SPEED * input_direction_x
 	owner.velocity.y += owner.gravity * delta
@@ -84,7 +100,7 @@ func physics_update(delta: float) -> void:
 	# I need to replace input_direction_x with the direction coming from 
 	#   the opposing player / dummy enemy
 
-	pass
+	
 
 
 

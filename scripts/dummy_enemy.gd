@@ -10,7 +10,7 @@ const MAX_HEALTH: int = 100			# Is an int
 # Dummy attack constants -- should be capitalized...
 const dummy_attack_damage: int = 5
 const dummy_attack_pushback: int = 1
-const dummy_attack_hitstun: int = 20
+const dummy_attack_hitstun: int = 100
 const dummy_attack_block_pushback: int = 1
 const dummy_attack_blockstun: int = 10
 

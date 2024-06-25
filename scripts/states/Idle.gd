@@ -118,6 +118,7 @@ func collision_check(attack_damage, attack_pushback, attack_hitstun, \
 	
 		if owner.is_player_1_blocking:
 			# Transition to blocking state (which plays blocking) or play the blocking animation
+			#   Edit -- this is now enting the Stun state with a "block" message
 			print("idle: I blocked. I got pushed back " + str(attack_block_pushback) \
 					+ " units")
 			print("idle: I'm in blockstun for " + str(attack_blockstun) + " frames")
@@ -135,6 +136,7 @@ func collision_check(attack_damage, attack_pushback, attack_hitstun, \
 			# Change the player's health since they took damage
 			#owner.player_1_health_bar._set_health(owner.player_1_health_bar.health - attack_damage)
 			took_damage_in_idle.emit(attack_damage)
+			
 			# Enter the Stun state
 			state_machine.transition_to("Stun", {do_hit_stand = true, \
 										pushback = attack_pushback, \
