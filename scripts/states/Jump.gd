@@ -49,8 +49,9 @@ func collision_check(attack_damage, attack_pushback, attack_hitstun, \
 					attack_block_pushback, attack_blockstun) -> void:
 		
 	if state_machine.animated_sprite_2d.get_animation() == "jump_neutral" \
-		|| state_machine.animated_sprite_2d.get_animation() == "hit_air" \
-		|| state_machine.animated_sprite_2d.get_animation() == "block_air":
+		# state_machine.animated_sprite_2d.get_animation() == "jump_forward" \
+		# state_machine.animated_sprite_2d.get_animation() == "jump_back" \
+		:
 		print("jump: player_1 is blocking: " + str(owner.is_player_1_blocking))
 	
 		print("jump: collision_check: attack_damage is " + str(attack_damage) \

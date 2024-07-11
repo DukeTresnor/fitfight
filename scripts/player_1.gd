@@ -119,7 +119,9 @@ func update(delta: float) -> void:
 
 
 
-
+# Attack signal function block
+# [ ---------------------------------------------------------------------
+# Update with other attacks
 # This is the player hitting the enemy with light attack
 func _on_attack_light_light_attack_hit(attack_light_damage, attack_light_pushback, \
 									attack_light_hitstun, attack_light_block_pushback, \
@@ -130,10 +132,16 @@ func _on_attack_light_light_attack_hit(attack_light_damage, attack_light_pushbac
 							attack_light_block_pushback, attack_light_blockstun)
 
 
+# --------------------------------------------------------------------- ]
+
+
+
+
 # This is when the enemy (player 2) hits the player (player 1)
 #   ie whenever player 2 hits player 1 with a hitbox
 # With a player_2, this should be ...
 # func _on_player_2_attack_collision(signal parameters)
+# Eliminating player_1 and player_2 wording, this should be _on_receive_hit?
 func _on_dummy_enemy_dummy_attack_hit(attack_damage, attack_pushback, attack_hitstun, attack_block_pushback, attack_blockstun):
 	
 	#print("player_1: dummy attack is hitting player_1")
@@ -200,6 +208,11 @@ func _on_attack_light_took_damage_in_attack_light(damage):
 	#owner.player_1_health_bar._set_health(owner.player_1_health_bar.health - attack_damage)
 	player_1_health_bar._set_health(player_1_health_bar.health - damage)
 	
+
+func _on_stun_took_damage_in_stun(damage):
+	print("player_1: I took " + str(damage) + " damage when in stun")
+	player_1_health_bar._set_health(player_1_health_bar.health - damage)
+
 # Each new state (attack or otherwise) should have an equivalent connected
 #   function here
 # --------------------------------------------------------------------- ]

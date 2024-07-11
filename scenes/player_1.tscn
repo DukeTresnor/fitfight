@@ -775,7 +775,7 @@ script = ExtResource("1_fxfkj")
 texture_filter = 1
 position = Vector2(1, -72)
 sprite_frames = SubResource("SpriteFrames_v6rfw")
-animation = &"hit_stand"
+animation = &"block_crouch"
 autoplay = "idle"
 frame = 1
 
@@ -809,7 +809,7 @@ script = ExtResource("7_vcjku")
 [node name="AttackLight" type="Node" parent="StateMachine" groups=["state_machine_nodes"]]
 script = ExtResource("8_2atu1")
 
-[node name="Stun" type="Node" parent="StateMachine"]
+[node name="Stun" type="Node" parent="StateMachine" groups=["state_machine_nodes"]]
 script = ExtResource("9_aa3v7")
 
 [node name="AttackLightCollision" type="Area2D" parent="."]
@@ -834,4 +834,5 @@ disabled = true
 [connection signal="took_damage_in_crouch" from="StateMachine/Crouch" to="." method="_on_crouch_took_damage_in_crouch"]
 [connection signal="light_attack_hit" from="StateMachine/AttackLight" to="." method="_on_attack_light_light_attack_hit"]
 [connection signal="took_damage_in_attack_light" from="StateMachine/AttackLight" to="." method="_on_attack_light_took_damage_in_attack_light"]
+[connection signal="took_damage_in_stun" from="StateMachine/Stun" to="." method="_on_stun_took_damage_in_stun"]
 [connection signal="body_entered" from="AttackLightCollision" to="StateMachine/AttackLight" method="_on_attack_light_collision_body_entered"]

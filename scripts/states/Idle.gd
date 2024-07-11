@@ -104,9 +104,7 @@ func update(delta: float) -> void:
 
 func collision_check(attack_damage, attack_pushback, attack_hitstun, \
 					attack_block_pushback, attack_blockstun) -> void:
-	if state_machine.animated_sprite_2d.get_animation() == "idle" \
-		|| state_machine.animated_sprite_2d.get_animation() == "hit_stand" \
-		|| state_machine.animated_sprite_2d.get_animation() == "block_stand":
+	if state_machine.animated_sprite_2d.get_animation() == "idle":
 		print("idle: player_1 is blocking: " + str(owner.is_player_1_blocking))
 	
 		print("idle: collision_check: attack_damage is " + str(attack_damage) \

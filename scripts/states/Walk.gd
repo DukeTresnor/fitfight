@@ -6,6 +6,7 @@ func enter(_msg := {}) -> void:
 	state_machine.animated_sprite_2d.play("walk")
 
 func physics_update(delta: float) -> void:
+#func _physics_process(delta: float) -> void:
 	if not owner.is_on_floor():
 		state_machine.transition_to("Jump")
 		return
@@ -33,9 +34,7 @@ func physics_update(delta: float) -> void:
 
 func collision_check(attack_damage, attack_pushback, attack_hitstun, \
 					attack_block_pushback, attack_blockstun) -> void:
-	if state_machine.animated_sprite_2d.get_animation() == "walk" \
-		|| state_machine.animated_sprite_2d.get_animation() == "hit_stand" \
-		|| state_machine.animated_sprite_2d.get_animation() == "block_stand":
+	if state_machine.animated_sprite_2d.get_animation() == "walk":
 		print("walk: player_1 is blocking: " + str(owner.is_player_1_blocking))
 	
 		print("walk: collision_check: attack_damage is " + str(attack_damage) \

@@ -46,6 +46,9 @@ func enter(_msg := {}) -> void:
 	# Not sure if I need to turn off the attacklighthitbox here
 	attack_light_collision.get_node("AttackLightHitBox").disabled = true
 	attack_light_collision.get_node("AttackLightHurtBox").disabled = false
+
+func _process(delta):
+	pass
 	
 func update(delta: float) -> void:
 	#if state_machine.animated_sprite_2d.get_animation() == "attack_light":

@@ -1,0 +1,80 @@
+Developer notes
+	Collisions
+		Pushback needs to occur in the proper direction
+			Pushback needs to be applied according to the amount given during signal
+				output. How should this be determined? How do other games do it?
+			I have a pushback "amount," but what does this mean in terms of actual
+		 		gameplay? A pushback duration, a pushback amount, a pushback velocity?
+			More research or theroycraffting is needed
+		Pushback needs to apply to the attacker when in the corner
+			Reference: https://game.capcom.com/cfn/sfv/column/131545?lang=en#:~:text=Pushback%3A%20Hit%2FBlock&text=The%20opponent%20is%20pushed%20back,its%20own%20unique%20pushback%20distance.
+			Currently when a collision occurs, the player getting hit applies pushback
+				to themselves according to data that was sent through signals at the
+					time of collision. How to apply pushback to the attacker?
+			One option is, at the time of collision, do a check on the defender's
+				position. If their position is at the corner, then do 2 things:
+					1. Don't send pushback information to the defender (or send 0
+						pushback)
+					2. Apply that pushback to the attacker
+		How to determine the amount of pushback?
+			Position vs Velocity
+				I think using velocity is where I want to start.
+				What would an actual argument for either one be?
+			Velocity
+				amount that is added increases then decreases to the its
+					starting value in stun's debug print statement
+				correct wording on above
+				Multiple attacks applied to player should increase the amount
+					added to the player's current velocity and over time move
+					the attacked player away from the attacking player
+				A place to investigate is stun.gd, in physics update,
+					ie my code block that applies velocity		
+				
+	Adding new attacks
+		New attacks need:
+			attack animation in AnimatedSprite2D node
+			a corresponding state node as a child of the StateMachine node
+				this state node child should be added to the state_machine_nodes group
+			a corresponding attack script
+				should have a collision check function
+				should have a signal function for taking damage: took_damage_in_"state"(damage)
+				should have a linked signal that connects to player_1 (should be player eventually)
+				should have a signal function for hitting with said attack:
+					signal "attack"_hit(damage, pushback, \
+						hitstun, block_pushback, blockstun)
+				should have constants for the attack (all caps), as ATTACK_STRENGTH_:
+					damage, pushback, hitstun, block_pushback, blockstun,
+					repeat_number, duration, cancelable_frame
+				should follow structure of current AttackLight script
+					ie contains a reference to the corresponding Collision Area2D node, etc.
+			in player_1 (player) script, any necessary print functions inside the
+				took_damage_in_"state" signal calls
+			a corresponding Area2D node (ie AttackMediumCollision) with hit and hurtboxes
+				hit and hurtboxes should be CollisionShape2D nodes with RectangleShape2D shape
+					parameters
+				hit and hurtboxes should be Disabled by default
+	
+	
+	Cancelable strings
+		Current logic for canceling moves into others doesn't retrigger collisions,
+			despite re-entering the proper attack state. Not sure of the solution
+			just yet
+	
+	
+	Character Builder
+		Need to decouple the player class from the youmu_konpaku sprite
+		Goal is to be able to transition from character select to the game scene
+			and load a single file (like a json file) that contains the selected
+			character's stats into a generic "player" instance
+		As a part of the generalization, player_1 should change to player
+			Be sure to be thorough in updating the proper references 
+		
+	Game
+		Scenes
+			Smooth transitions between game modes is needed
+			Game
+				Character Death
+					When player health is empty, that player despawns
+						Handle the despawn event and transition back to the
+							menu scene
+						

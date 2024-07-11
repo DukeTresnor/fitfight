@@ -19,7 +19,7 @@ signal transitioned(state_name)
 @onready var animated_sprite_2d = $"../AnimatedSprite2D"
 
 # This isn't used, edit out later
-@onready var animation_player = $"../AnimationPlayer"
+#@onready var animation_player = $"../AnimationPlayer"
 
 
 
