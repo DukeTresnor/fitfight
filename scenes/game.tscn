@@ -1,5 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://c5xrq6275uyc8"]
+[gd_scene load_steps=12 format=3 uid="uid://c5xrq6275uyc8"]
 
+[ext_resource type="Script" path="res://scripts/InputBuffer.gd" id="1_4hhur"]
 [ext_resource type="Script" path="res://scripts/canvas_layer.gd" id="1_ii435"]
 [ext_resource type="PackedScene" uid="uid://f8u28dr1d608" path="res://scenes/player_1.tscn" id="1_lm0sm"]
 [ext_resource type="Texture2D" uid="uid://ujto5hq3wqpr" path="res://assets/backgrounds/PC Computer - Touhou Hisoutensoku - Shore of Misty Lake.png" id="1_n5i5b"]
@@ -15,6 +16,11 @@
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_172ku"]
 
 [node name="Game" type="Node2D"]
+
+[node name="InputBuffer" type="Node2D" parent="."]
+script = ExtResource("1_4hhur")
+
+[node name="BufferTimer" type="Timer" parent="InputBuffer"]
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
@@ -78,5 +84,6 @@ shape = SubResource("WorldBoundaryShape2D_172ku")
 [node name="DummyEnemy" parent="." groups=["debug_enemies"] instance=ExtResource("2_fr740")]
 position = Vector2(178, -80)
 
+[connection signal="timeout" from="InputBuffer/BufferTimer" to="InputBuffer" method="_on_buffer_timer_timeout"]
 [connection signal="attack_collision" from="Player1" to="DummyEnemy" method="_on_player_1_attack_collision"]
 [connection signal="dummy_attack_hit" from="DummyEnemy" to="Player1" method="_on_dummy_enemy_dummy_attack_hit"]
