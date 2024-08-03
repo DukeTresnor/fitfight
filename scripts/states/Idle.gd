@@ -80,6 +80,9 @@ func update(delta: float) -> void:
 		#print("idle: is_player_1_blocking_in_idle: " + str(owner.is_player_1_blocking))
 		# --------------------------------------------- ]
 
+	#if InputBuffer.is_action_press_buffered("jump_neutral"):
+	#	print("Idle: testing jump_neutral")
+	
 	
 	if Input.is_action_just_pressed("jump_neutral"):
 		# We can use a msg dictionary to tell the
@@ -93,7 +96,9 @@ func update(delta: float) -> void:
 		(Input.is_action_pressed("crouch") && \
 			(Input.is_action_pressed("move_left") || Input.is_action_pressed("move_right"))):
 			state_machine.transition_to("Crouch")
-			
+
+
+	#if InputBuffer.is_action_press_buffered("attack_light"):
 	if Input.is_action_just_pressed("attack_light"):
 		state_machine.transition_to("AttackLight")
 	
