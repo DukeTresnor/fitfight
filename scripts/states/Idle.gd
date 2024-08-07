@@ -80,16 +80,15 @@ func update(delta: float) -> void:
 		#print("idle: is_player_1_blocking_in_idle: " + str(owner.is_player_1_blocking))
 		# --------------------------------------------- ]
 
-	#if InputBuffer.is_action_press_buffered("jump_neutral"):
+	if InputBuffer.is_action_press_buffered("jump_neutral"):
 	#	print("Idle: testing jump_neutral")
-	
-	
-	if Input.is_action_just_pressed("jump_neutral"):
+	#if Input.is_action_just_pressed("jump_neutral"):
 		# We can use a msg dictionary to tell the
 		#   next state that we want to do neutral
 		#   jump
 		state_machine.transition_to("Jump", {do_jump = true})
-	elif Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right"):
+	elif InputBuffer.is_action_press_buffered("move_left") or InputBuffer.is_action_press_buffered("move_right"):
+	#elif Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right"):
 			state_machine.transition_to("Walk")
 	# Excess logic checking here -- don't need the move left or right check?
 	elif Input.is_action_pressed("crouch") || \
@@ -132,6 +131,7 @@ func collision_check(attack_damage, attack_pushback, attack_hitstun, \
 			
 		else:
 			# Transition to getting hit state (which plays getting hit) or play the getting hit animation
+			#   Edit -- this is now enting the Stun state with a "hit" message
 			print("idle: I got hit! I took " + str(attack_damage) + " damage")
 			print("idle: I got pushed back " + str(attack_pushback) + " units")
 			print("idle: I'm in hitstun for " + str(attack_hitstun) + " frames")
@@ -147,7 +147,7 @@ func collision_check(attack_damage, attack_pushback, attack_hitstun, \
 	
 	
 	
-	
+# Is this needed anymore?
 func _on_player_1_enemy_attack_collision(attack_damage, attack_pushback, attack_hitstun, attack_block_pushback, attack_blockstun):
 	# check for blocking here, if not blocking, player_1 takes damage, transition states
 	'''

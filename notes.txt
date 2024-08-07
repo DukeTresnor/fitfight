@@ -29,7 +29,64 @@ Developer notes
 					the attacked player away from the attacking player
 				A place to investigate is stun.gd, in physics update,
 					ie my code block that applies velocity		
+	
+	
+	Input Buffer
+		I have some implementation of input buffer that's a combination of two
+			input buffer ideas.
+		I have a movement_oder_queue that can handle diagonal inputs; next step
+			is to combine the movement_order_queue with timestamps (/ timestamp 
+			dictionary).
+		move_right, neutral, move_right shows up as (1,0), (0,0), (1,0) inside
+			the movement_order_queue. The game should respond with:
+				1. transition from Idle to Walk state thanks to the first move_right buffer
+					input
+				2. transition from Walk to Idle state thanks to no input (ie thanks to the 
+					(0, 0) input)
+				3. transition from Idle to Dash state thanks to move_right buffer input
+					seeing (1, 0) _and_ thanks to the difference between the two most
+					recent keyboard_timestamps for that input being small enough _and_
+					thanks to the movement_order_queue having its 3 most recent elements
+					as (1,0), (0,0), (1,0).
+			The second condition in step 3, ie the difference in timestamps being small
+				enough, should be satisfied within is_action_press_buffered() thanks to
+				the invalidate action call?
+				Ie I should be able to insert some calls and adjustments within
+					is_action_press_buffered() instead of making a whole new function 
+		In states that could enter dash (ie Idle):
+			if InputBuffer.is_action_press_buffered("move_right") and
+				InputBuffer.movement_order_queue[-1] is (1,0) and
+				InputBuffer.movement_order_queue[-2] is (0,0) and
+				InputBuffer.movement_order_queue[-3] is (1,0),
+					dash_direction = "right"
+					transition to dash state with ("right") message
+		In states that could enter fireball (ie Idle or attack_light):
+			if InputBuffer.is_action_press_buffered("attack_light") and
+				InputBuffer.movement_order_queue[-1] is (1,0) and
+				InputBuffer.movement_order_queue[-2] is (1,-1) and
+				InputBuffer.movement_order_queue[-3] is (0,-1),
+					special_strength = "light"
+					transition to fireball_special with ("light") message
+		Hypothetically the implementation of the buffer window should handle
+			gaps between movement and button inputs, but it might be too strict:
+				"InputBuffer.movement_order_queue[-1] is (1,0)" might not work
+				since any release of movement will make InputBuffer.movement_order_queue[-1]
+				equal to (0, 0).
+			Solution to this would be to only update the movement order queue inside
+				is_action_press_buffered().
+		Another problem with this implementation is that a diagonal-down-right input
+			is registered as 1 update in movement_order_queue, but 2 in keyboard_timestamps.
+			Doing down -> diagonal-down-right flags is_action_press_bufered() for a
+			"double down" input, since diagonal-down-right is registered within
+			keyboard_timestamps as separate down and right tick updates.
+			Essentially doing a fireball motion under this system also "does" a down-down motion.
+			It might work out fine since fireball checks movement_input_queue for three Vector2's,
+				so once you input that 3rd command (ie right) into the attack button, the check
+				for down-down fails since ....
 				
+			the movement_input_queue inherently might just make this work anyways...
+			
+			
 	Adding new attacks
 		New attacks need:
 			attack animation in AnimatedSprite2D node
