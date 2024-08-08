@@ -18,7 +18,7 @@ const dummy_attack_blockstun: int = 10
 const DUMMY_SPEED: float = 300.0
 
 # References to Player1
-@onready var player_1_reference = $"../Player1"
+@onready var player_reference = $"../Player1"
 # References attatched to the dummy_enemy
 @onready var dummy_animated_sprite_2d = $AnimatedSprite2D
 @onready var is_dummy_blocking: bool = false
@@ -53,7 +53,7 @@ func _process(delta):
 	# Directional Blocking code block for dummy enemy
 	# Implement something similar with the player,
 	#   then make it standardized using state transitions
-	debug_player_pos = player_1_reference.global_position
+	debug_player_pos = player_reference.global_position
 	debug_dummy_pos = dummy_animated_sprite_2d.global_position
 	#print("dummy_enemy: distance between players: " + str(debug_player_pos - debug_dummy_pos))
 	
@@ -102,7 +102,7 @@ func _physics_process(delta):
 	
 	# Not the solution to switching left or right based on player distance
 	# But setting up the reference works!
-	#look_at(player_1_reference.global_position)
+	#look_at(player_reference.global_position)
 
 
 
@@ -125,7 +125,7 @@ func _set_health(value):
 		# set is_alive to false
 		is_alive = false
 
-func _on_player_1_attack_collision(attack_damage, attack_pushback, attack_hitstun, \
+func _on_player_attack_collision(attack_damage, attack_pushback, attack_hitstun, \
 									attack_block_pushback, attack_blockstun):
 
 
@@ -172,7 +172,7 @@ func _on_animated_sprite_2d_animation_finished():
 #   When I implement this with 2 players, I need to have the full structure
 func _on_dummy_box_collision_body_entered(body):
 	if dummy_animated_sprite_2d.get_animation() == "debug_attack":
-		if body.is_in_group("player_1"):
+		if body.is_in_group("player"):
 			print("dummy_enemy: body collision with: " + str(body))
 			
 			dummy_attack_hit.emit(dummy_attack_damage, dummy_attack_pushback, \

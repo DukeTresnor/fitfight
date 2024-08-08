@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 # General logic for collisions is within the AttackX script, is a signal tied to that
-#   script. This signal is attached to the player_1 script, which in turn has a signal
+#   script. This signal is attached to the player script, which in turn has a signal
 #   called attack_collision. This signal is sent to the opposing player / dummy enemy
 signal attack_collision(attack_damage, attack_pushback, attack_hitstun, \
 						attack_block_pushback, attack_blockstun)
@@ -31,8 +31,14 @@ const JUMP_IMPULSE = 450.0
 # Reference to the Player1HealthBar
 # Needs to be adjusted if I adjust the parents / children of the player's
 #   health bar
-#@onready var player_1_health_bar = $"../Player1HealthBar"
-@onready var player_1_health_bar = $"../CanvasLayer/Player1HealthBar"
+# Needs to be changed, each instance of player needs a reference to one
+#   of the health bars, but each instance will be using this script.
+# Each reference var (player_health_bar, dummy_enemy_reference, etc.) needs
+#   to get a reference from the scene "on its own"
+#   The issue is that $"../CanvasLayer/Player1HealthBar" only works for
+#     player1, player2 doesn't get one but has to from this script
+#@onready var player_health_bar = $"../Player1HealthBar"
+@onready var player_health_bar = $"../CanvasLayer/Player1HealthBar"
 
 # Reference to the player's animated sprite 2d node, to determine if the player
 #   is blocking
@@ -41,7 +47,7 @@ const JUMP_IMPULSE = 450.0
 
 var player_pos
 var enemy_pos
-var is_player_1_blocking: bool = false
+var is_player_blocking: bool = false
 
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -52,21 +58,21 @@ var is_alive: bool = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	# Initialize player_1's health
-	player_1_health_bar.init_health(MAX_HEALTH)
+	# Initialize player's health
+	player_health_bar.init_health(MAX_HEALTH)
 	
 
 
 
 func _set_health(value):
 	# Set the HealthBar to the value parameter
-	player_1_health_bar._set_health(value)
+	player_health_bar._set_health(value)
 	# Adjust the internal health for the DummyEnemy to the value parameter
 	current_health = value
 	
 	if current_health <= 0 && is_alive:
-		print("player_1: current_health below 0, kill Player1")
-		print("player_1: current_health: " + str(current_health))
+		print("player: current_health below 0, kill Player1")
+		print("player: current_health: " + str(current_health))
 		# Signal to kill player? Run ending sequence?
 
 		# set is_alive to false
@@ -78,15 +84,15 @@ func update(delta: float) -> void:
 	enemy_pos = dummy_enemy_reference.global_position
 
 	# [ ---------------------------------------------
-	# Directional Blocking code block for player_1
+	# Directional Blocking code block for player
 	if ((player_pos - enemy_pos) >= Vector2(0.0, 0.0) && Input.is_action_pressed("move_right")) || \
 		((player_pos - enemy_pos) < Vector2(0.0, 0.0) && Input.is_action_pressed("move_left")) \
 		&& not (Input.is_action_pressed("move_left") && Input.is_action_pressed("move_right")):
-		is_player_1_blocking = true
+		is_player_blocking = true
 	else:
-		is_player_1_blocking = false
+		is_player_blocking = false
 			
-	print("player_1: is_player_1_blocking: " + str(is_player_1_blocking))
+	print("player: is_player_blocking: " + str(is_player_blocking))
 	# --------------------------------------------- ]
 	'''
 	
@@ -141,10 +147,10 @@ func _on_attack_light_light_attack_hit(attack_light_damage, attack_light_pushbac
 #   ie whenever player 2 hits player 1 with a hitbox
 # With a player_2, this should be ...
 # func _on_player_2_attack_collision(signal parameters)
-# Eliminating player_1 and player_2 wording, this should be _on_receive_hit?
+# Eliminating player and player_2 wording, this should be _on_receive_hit?
 func _on_dummy_enemy_dummy_attack_hit(attack_damage, attack_pushback, attack_hitstun, attack_block_pushback, attack_blockstun):
 	
-	#print("player_1: dummy attack is hitting player_1")
+	#print("player: dummy attack is hitting player")
 	#enemy_attack_collision.emit(attack_damage, attack_pushback, attack_hitstun, \
 	#						attack_block_pushback, attack_blockstun)
 							
@@ -184,34 +190,34 @@ func _on_dummy_enemy_dummy_attack_hit(attack_damage, attack_pushback, attack_hit
 # Function block for taking damage signals
 # [ ---------------------------------------------------------------------
 func _on_idle_took_damage_in_idle(damage):
-	print("player_1: I took " + str(damage) + " damage when in idle")
-	#owner.player_1_health_bar._set_health(owner.player_1_health_bar.health - attack_damage)
-	player_1_health_bar._set_health(player_1_health_bar.health - damage)
+	print("player: I took " + str(damage) + " damage when in idle")
+	#owner.player_health_bar._set_health(owner.player_health_bar.health - attack_damage)
+	player_health_bar._set_health(player_health_bar.health - damage)
 
 func _on_walk_took_damage_in_walk(damage):
-	print("player_1: I took " + str(damage) + " damage when in walk")
-	#owner.player_1_health_bar._set_health(owner.player_1_health_bar.health - attack_damage)
-	player_1_health_bar._set_health(player_1_health_bar.health - damage)
+	print("player: I took " + str(damage) + " damage when in walk")
+	#owner.player_health_bar._set_health(owner.player_health_bar.health - attack_damage)
+	player_health_bar._set_health(player_health_bar.health - damage)
 
 func _on_jump_took_damage_in_jump(damage):
-	print("player_1: I took " + str(damage) + " damage when in jump")
-	#owner.player_1_health_bar._set_health(owner.player_1_health_bar.health - attack_damage)
-	player_1_health_bar._set_health(player_1_health_bar.health - damage)
+	print("player: I took " + str(damage) + " damage when in jump")
+	#owner.player_health_bar._set_health(owner.player_health_bar.health - attack_damage)
+	player_health_bar._set_health(player_health_bar.health - damage)
 
 func _on_crouch_took_damage_in_crouch(damage):
-	print("player_1: I took " + str(damage) + " damage when in crouch")
-	#owner.player_1_health_bar._set_health(owner.player_1_health_bar.health - attack_damage)
-	player_1_health_bar._set_health(player_1_health_bar.health - damage)
+	print("player: I took " + str(damage) + " damage when in crouch")
+	#owner.player_health_bar._set_health(owner.player_health_bar.health - attack_damage)
+	player_health_bar._set_health(player_health_bar.health - damage)
 
 func _on_attack_light_took_damage_in_attack_light(damage):
-	print("player_1: I took " + str(damage) + " damage when in attack_light")
-	#owner.player_1_health_bar._set_health(owner.player_1_health_bar.health - attack_damage)
-	player_1_health_bar._set_health(player_1_health_bar.health - damage)
+	print("player: I took " + str(damage) + " damage when in attack_light")
+	#owner.player_health_bar._set_health(owner.player_health_bar.health - attack_damage)
+	player_health_bar._set_health(player_health_bar.health - damage)
 	
 
 func _on_stun_took_damage_in_stun(damage):
-	print("player_1: I took " + str(damage) + " damage when in stun")
-	player_1_health_bar._set_health(player_1_health_bar.health - damage)
+	print("player: I took " + str(damage) + " damage when in stun")
+	player_health_bar._set_health(player_health_bar.health - damage)
 
 # Each new state (attack or otherwise) should have an equivalent connected
 #   function here

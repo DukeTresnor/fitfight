@@ -2,7 +2,7 @@
 #extends State
 
 ## Typed regerence to the player node
-#@onready var player_1 = $"."
+#@onready var player = $"."
 
 #func _ready() -> void:
 #	# The states are children of the `Player` node so their `_ready()` callback will execute first.
@@ -10,8 +10,8 @@
 #	await owner.ready
 #	# The `as` keyword casts the `owner` variable to the `Player` type.
 #	# If the `owner` is not a `Player`, we'll get `null`.
-#	player_1 = owner as player_1
+#	player = owner as player
 #	# This check will tell us if we inadvertently assign a derived state script
 #	# in a scene other than `Player.tscn`, which would be unintended. This can
 #	# help prevent some bugs that are difficult to understand.
-#	assert(player_1 != null)
+#	assert(player != null)

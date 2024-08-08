@@ -29,13 +29,13 @@ func update(delta: float) -> void:
 		# [ ---------------------------------------------
 		# Code logic to switch the player based on location relative to the enemy
 		# Has a lot of bugs -- works! Keep an eye on it
-		# This might need to be placed inside the general player_1 script for all
+		# This might need to be placed inside the general player script for all
 		#   of the different player states to reference to and look at
 		#   Doing it that way would mean that the player always changes direction,
 		#     instead of only switching in the idle state
 		#   Right now, the player would not switch directions even after a double jump,
 		#     for example
-		# Implementing inside of player_1 script doesn't work b/c of my state implementation,
+		# Implementing inside of player script doesn't work b/c of my state implementation,
 		#   I need to implement this in any particular state that wants this behavior...
 		if owner.player_pos - owner.enemy_pos >= Vector2(0.0, 0.0):
 			#state_machine.animated_sprite_2d.set_flip_h(true)
@@ -58,26 +58,26 @@ func update(delta: float) -> void:
 		#		look into?
 		# Look into the look_at() function as well
 		#print("idle: dummy_enemy location: " + str(dummy_pos))
-		#print("idle: player_1 location: " + str(player_pos))	
-		#print("idle: player_1 location - dummy_enemy location: " + str(player_pos - dummy_pos))
-		#print("idle: player_1 horizontal scale: " + str(owner.scale.x))
+		#print("idle: player location: " + str(player_pos))	
+		#print("idle: player location - dummy_enemy location: " + str(player_pos - dummy_pos))
+		#print("idle: player horizontal scale: " + str(owner.scale.x))
 	
 		
 
 		# [ ---------------------------------------------
-		# Directional Blocking code block for player_1
+		# Directional Blocking code block for player
 		# Implement something similar with the player,
 		#   then make it standardized using state transitions
 		if ((owner.player_pos - owner.enemy_pos) >= Vector2(0.0, 0.0) && Input.is_action_pressed("move_right")) || \
 			((owner.player_pos - owner.enemy_pos) < Vector2(0.0, 0.0) && Input.is_action_pressed("move_left")) \
 			&& not (Input.is_action_pressed("move_left") && Input.is_action_pressed("move_right")):
 			#dummy_animated_sprite_2d.play("debug_block")
-			owner.is_player_1_blocking = true
+			owner.is_player_blocking = true
 		else:
 			#dummy_animated_sprite_2d.play(("debug_idle"))
-			owner.is_player_1_blocking = false
+			owner.is_player_blocking = false
 			
-		#print("idle: is_player_1_blocking_in_idle: " + str(owner.is_player_1_blocking))
+		#print("idle: is_player_blocking_in_idle: " + str(owner.is_player_blocking))
 		# --------------------------------------------- ]
 
 	if InputBuffer.is_action_press_buffered("jump_neutral"):
@@ -87,12 +87,17 @@ func update(delta: float) -> void:
 		#   next state that we want to do neutral
 		#   jump
 		state_machine.transition_to("Jump", {do_jump = true})
-	elif InputBuffer.is_action_press_buffered("move_left") or InputBuffer.is_action_press_buffered("move_right"):
+		
+	if InputBuffer.is_action_press_buffered("move_left") or InputBuffer.is_action_press_buffered("move_right"):
 	#elif Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right"):
+			
+			
+			
 			state_machine.transition_to("Walk")
+			
 	# Excess logic checking here -- don't need the move left or right check?
-	elif Input.is_action_pressed("crouch") || \
-		(Input.is_action_pressed("crouch") && \
+	if Input.is_action_pressed("crouch") or \
+		(Input.is_action_pressed("crouch") and \
 			(Input.is_action_pressed("move_left") || Input.is_action_pressed("move_right"))):
 			state_machine.transition_to("Crouch")
 
@@ -109,7 +114,7 @@ func update(delta: float) -> void:
 func collision_check(attack_damage, attack_pushback, attack_hitstun, \
 					attack_block_pushback, attack_blockstun) -> void:
 	if state_machine.animated_sprite_2d.get_animation() == "idle":
-		print("idle: player_1 is blocking: " + str(owner.is_player_1_blocking))
+		print("idle: player is blocking: " + str(owner.is_player_blocking))
 	
 		print("idle: collision_check: attack_damage is " + str(attack_damage) \
 			+ ", attack_pushback is " + str(attack_pushback) \
@@ -118,7 +123,7 @@ func collision_check(attack_damage, attack_pushback, attack_hitstun, \
 			+ ", attack_blockstun is " + str(attack_blockstun))
 			
 	
-		if owner.is_player_1_blocking:
+		if owner.is_player_blocking:
 			# Transition to blocking state (which plays blocking) or play the blocking animation
 			#   Edit -- this is now enting the Stun state with a "block" message
 			print("idle: I blocked. I got pushed back " + str(attack_block_pushback) \
@@ -137,7 +142,7 @@ func collision_check(attack_damage, attack_pushback, attack_hitstun, \
 			print("idle: I'm in hitstun for " + str(attack_hitstun) + " frames")
 			
 			# Change the player's health since they took damage
-			#owner.player_1_health_bar._set_health(owner.player_1_health_bar.health - attack_damage)
+			#owner.player_health_bar._set_health(owner.player_health_bar.health - attack_damage)
 			took_damage_in_idle.emit(attack_damage)
 			
 			# Enter the Stun state
@@ -148,13 +153,13 @@ func collision_check(attack_damage, attack_pushback, attack_hitstun, \
 	
 	
 # Is this needed anymore?
-func _on_player_1_enemy_attack_collision(attack_damage, attack_pushback, attack_hitstun, attack_block_pushback, attack_blockstun):
-	# check for blocking here, if not blocking, player_1 takes damage, transition states
+func _on_player_enemy_attack_collision(attack_damage, attack_pushback, attack_hitstun, attack_block_pushback, attack_blockstun):
+	# check for blocking here, if not blocking, player takes damage, transition states
 	'''
 	print("idle: the opponent is attacking me")
-	print("idle: player_1 is blocking: " + str(owner.is_player_1_blocking))
+	print("idle: player is blocking: " + str(owner.is_player_blocking))
 
-	if owner.is_player_1_blocking:
+	if owner.is_player_blocking:
 		# Transition to blocking state (which plays blocking) or play the blocking animation
 		print("idle: I blocked. I got pushed back " + str(attack_block_pushback) \
 				+ " units")
@@ -167,7 +172,7 @@ func _on_player_1_enemy_attack_collision(attack_damage, attack_pushback, attack_
 			print("idle: I'm in hitstun for " + str(attack_hitstun) + " frames")
 			
 			# Change the player's health since they took damage
-			#owner.player_1_health_bar._set_health(owner.player_1_health_bar.health - attack_damage)
+			#owner.player_health_bar._set_health(owner.player_health_bar.health - attack_damage)
 			took_damage_in_idle.emit(attack_damage)	
 	'''
 	pass

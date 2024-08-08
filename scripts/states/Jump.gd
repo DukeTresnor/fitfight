@@ -17,7 +17,7 @@ func enter(msg := {}) -> void:
 
 
 func update(delta: float) -> void:
-	#print("jump:  player is blocking in the air " + str(owner.is_player_1_blocking))
+	#print("jump:  player is blocking in the air " + str(owner.is_player_blocking))
 	pass
 
 func physics_update(delta: float) -> void:
@@ -52,7 +52,7 @@ func collision_check(attack_damage, attack_pushback, attack_hitstun, \
 		# state_machine.animated_sprite_2d.get_animation() == "jump_forward" \
 		# state_machine.animated_sprite_2d.get_animation() == "jump_back" \
 		:
-		print("jump: player_1 is blocking: " + str(owner.is_player_1_blocking))
+		print("jump: player is blocking: " + str(owner.is_player_blocking))
 	
 		print("jump: collision_check: attack_damage is " + str(attack_damage) \
 			+ ", attack_pushback is " + str(attack_pushback) \
@@ -61,7 +61,7 @@ func collision_check(attack_damage, attack_pushback, attack_hitstun, \
 			+ ", attack_blockstun is " + str(attack_blockstun))
 			
 	
-		if owner.is_player_1_blocking:
+		if owner.is_player_blocking:
 			# Transition to blocking state (which plays blocking) or play the blocking animation
 			print("jump: I blocked. I got pushed back " + str(attack_block_pushback) \
 					+ " units")

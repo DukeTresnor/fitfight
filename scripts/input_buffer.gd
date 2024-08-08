@@ -65,7 +65,7 @@ func _process(_delta):
 	#print("input_buffer: testing values: keyboard_timestamps: " + \
 	#	str(keyboard_timestamps))
 	_get_movement_input()
-	print("input_buffer: testing order_queue: " + str(movement_order_queue))
+	#print("input_buffer: testing order_queue: " + str(movement_order_queue))
 	#pass
 
 

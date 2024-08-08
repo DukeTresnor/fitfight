@@ -29,19 +29,19 @@ func update(delta: float) -> void:
 
 	
 	# [ ---------------------------------------------
-	# Directional Blocking code block for player_1
+	# Directional Blocking code block for player
 	# Implement something similar with the player,
 	#   then make it standardized using state transitions
 	if ((owner.player_pos - owner.enemy_pos) >= Vector2(0.0, 0.0) && Input.is_action_pressed("move_right")) || \
 		((owner.player_pos - owner.enemy_pos) < Vector2(0.0, 0.0) && Input.is_action_pressed("move_left")) \
 		&& not (Input.is_action_pressed("move_left") && Input.is_action_pressed("move_right")):
 		#dummy_animated_sprite_2d.play("debug_block")
-		owner.is_player_1_blocking = true
+		owner.is_player_blocking = true
 	else:
 		#dummy_animated_sprite_2d.play(("debug_idle"))
-		owner.is_player_1_blocking = false
+		owner.is_player_blocking = false
 		
-	#print("crouch: is_player_1_blocking: " + str(owner.is_player_1_blocking))
+	#print("crouch: is_player_blocking: " + str(owner.is_player_blocking))
 	# --------------------------------------------- ]
 
 	
@@ -64,7 +64,7 @@ func physics_update(delta: float) -> void:
 func collision_check(attack_damage, attack_pushback, attack_hitstun, \
 					attack_block_pushback, attack_blockstun) -> void:
 	if state_machine.animated_sprite_2d.get_animation() == "crouch":
-		print("crouch: player_1 is blocking: " + str(owner.is_player_1_blocking))
+		print("crouch: player is blocking: " + str(owner.is_player_blocking))
 	
 		print("crouch: collision_check: attack_damage is " + str(attack_damage) \
 			+ ", attack_pushback is " + str(attack_pushback) \
@@ -73,7 +73,7 @@ func collision_check(attack_damage, attack_pushback, attack_hitstun, \
 			+ ", attack_blockstun is " + str(attack_blockstun))
 			
 	
-		if owner.is_player_1_blocking:
+		if owner.is_player_blocking:
 			# Transition to blocking state (which plays blocking) or play the blocking animation
 			print("crouch: I blocked. I got pushed back " + str(attack_block_pushback) \
 					+ " units")

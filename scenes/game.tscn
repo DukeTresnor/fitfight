@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://c5xrq6275uyc8"]
 
 [ext_resource type="Script" path="res://scripts/canvas_layer.gd" id="1_ii435"]
-[ext_resource type="PackedScene" uid="uid://f8u28dr1d608" path="res://scenes/player_1.tscn" id="1_lm0sm"]
+[ext_resource type="PackedScene" uid="uid://f8u28dr1d608" path="res://scenes/player.tscn" id="1_lm0sm"]
 [ext_resource type="Texture2D" uid="uid://ujto5hq3wqpr" path="res://assets/backgrounds/PC Computer - Touhou Hisoutensoku - Shore of Misty Lake.png" id="1_n5i5b"]
 [ext_resource type="PackedScene" uid="uid://3ig4tjixmgys" path="res://scenes/dummy_enemy.tscn" id="2_fr740"]
 [ext_resource type="Texture2D" uid="uid://dc0j67x3na7bu" path="res://assets/backgrounds/PC Computer - Touhou Hisoutensoku - Skies_crop.png" id="2_s7jhy"]
@@ -55,7 +55,7 @@ position = Vector2(34, -55)
 zoom = Vector2(2, 2)
 script = ExtResource("3_xurvh")
 
-[node name="Player1" parent="." groups=["player_1"] instance=ExtResource("1_lm0sm")]
+[node name="Player1" parent="." groups=["player"] instance=ExtResource("1_lm0sm")]
 position = Vector2(-12, -15)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
@@ -78,5 +78,5 @@ shape = SubResource("WorldBoundaryShape2D_172ku")
 [node name="DummyEnemy" parent="." groups=["debug_enemies"] instance=ExtResource("2_fr740")]
 position = Vector2(178, -80)
 
-[connection signal="attack_collision" from="Player1" to="DummyEnemy" method="_on_player_1_attack_collision"]
+[connection signal="attack_collision" from="Player1" to="DummyEnemy" method="_on_player_attack_collision"]
 [connection signal="dummy_attack_hit" from="DummyEnemy" to="Player1" method="_on_dummy_enemy_dummy_attack_hit"]

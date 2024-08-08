@@ -16,7 +16,7 @@ const ATTACK_LIGHT_HITSTUN: int = 1
 const ATTACK_LIGHT_BLOCK_PUSHBACK: int = 1
 const ATTACK_LIGHT_BLOCKSTUN: int = 1
 
-const ATTACK_LIGHT_REPEAT_NUMBER: int = 0
+const ATTACK_LIGHT_REPEAT_NUMBER: int = 3
 
 # This should be linked / matched to the player's attack_light animation
 const ATTACK_LIGHT_DURATION: int = 7
@@ -24,7 +24,7 @@ const ATTACK_LIGHT_DURATION: int = 7
 const ATTACK_LIGHT_CANCELABLE_FRAME: int = 3
 
 
-# References to player_1's hitboxes for the AttackLightCollision Area2D node
+# References to player's hitboxes for the AttackLightCollision Area2D node
 @onready var attack_light_collision = $"../../AttackLightCollision"
 
 # Get a reference to the player's state_machine in order to check its flip_h property
@@ -64,7 +64,8 @@ func update(delta: float) -> void:
 		
 	# Attack Light is repeatable up to 3 times (might be up to 4 times...)
 	# Change to 0 to prevent this ability for the moment
-	if Input.is_action_just_pressed("attack_light") && attack_light_repeat_count < ATTACK_LIGHT_REPEAT_NUMBER \
+	if InputBuffer.is_action_press_buffered("attack_light") && attack_light_repeat_count < ATTACK_LIGHT_REPEAT_NUMBER \
+	#if Input.is_action_just_pressed("attack_light") && attack_light_repeat_count < ATTACK_LIGHT_REPEAT_NUMBER \
 			&& state_machine.animated_sprite_2d.get_frame() >= ATTACK_LIGHT_CANCELABLE_FRAME:
 		# Reset the animation
 		state_machine.animated_sprite_2d.set_frame(0)
@@ -89,7 +90,7 @@ func update(delta: float) -> void:
 func collision_check(attack_damage, attack_pushback, attack_hitstun, \
 					attack_block_pushback, attack_blockstun) -> void:
 	if state_machine.animated_sprite_2d.get_animation() == "attack_light":
-		print("attack_light: player_1 is blocking: " + str(owner.is_player_1_blocking))
+		print("attack_light: player is blocking: " + str(owner.is_player_blocking))
 	
 		print("attack_light: collision_check: attack_damage is " + str(attack_damage) \
 			+ ", attack_pushback is " + str(attack_pushback) \
@@ -98,7 +99,7 @@ func collision_check(attack_damage, attack_pushback, attack_hitstun, \
 			+ ", attack_blockstun is " + str(attack_blockstun))
 			
 	
-		if owner.is_player_1_blocking:
+		if owner.is_player_blocking:
 			# Transition to blocking state (which plays blocking) or play the blocking animation
 			print("attack_light: I blocked. I got pushed back " + str(attack_block_pushback) \
 					+ " units")

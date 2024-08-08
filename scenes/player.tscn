@@ -1,7 +1,7 @@
 [gd_scene load_steps=92 format=3 uid="uid://f8u28dr1d608"]
 
-[ext_resource type="Script" path="res://scripts/player_1.gd" id="1_fxfkj"]
 [ext_resource type="Texture2D" uid="uid://bo2r7vdupsilo" path="res://assets/sprites/youmu_konpaku_spritesheet.png" id="1_ia6ju"]
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_lj48r"]
 [ext_resource type="Script" path="res://scripts/states/state_machine.gd" id="3_xjhkc"]
 [ext_resource type="Script" path="res://scripts/states/Idle.gd" id="4_5xwqv"]
 [ext_resource type="Script" path="res://scripts/states/Walk.gd" id="5_rut7v"]
@@ -767,9 +767,9 @@ size = Vector2(57.5, 24)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fmoeq"]
 size = Vector2(60, 45)
 
-[node name="Player1" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D"]
 texture_filter = 1
-script = ExtResource("1_fxfkj")
+script = ExtResource("1_lj48r")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1

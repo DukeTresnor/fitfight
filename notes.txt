@@ -126,6 +126,47 @@ Developer notes
 		As a part of the generalization, player_1 should change to player
 			Be sure to be thorough in updating the proper references 
 		
+	Multiplayer Notes
+		Local Multiplayer
+			Explore:
+				https://www.youtube.com/watch?v=ai331P2U1pE
+				https://www.youtube.com/watch?v=9FcZFIqXOyA
+			Issues:
+				Right now my player script has dummy_enemy and player1 health bar
+					references from the game scene. My goal is to have one
+					player scene that I create instances of as children of the main
+					game scene, but currently my implementation of the player script
+					will not allow for this.
+					Game
+						Player1
+							...
+							scripts
+								...
+								player.gd
+						Player2
+							...
+							scripts
+								...
+								player.gd
+					Both Player1 and Player2 are instances of the player scene, and
+						both have player.gd. Player1 needs a reference to Player1HealthBar
+						and Player2, while Player2 needs a reference to Player2HealthBar
+						and Player1.
+					How do I differentiate between the 2 players? Does the player.gd
+						script need 4 references? Most likely this gets addressed / solved
+						using IDs, like with the inputs issue
+					
+				Try to explore the links above, see if it still works in the most
+					current version.
+				The videos themselves might only help to have multiple players
+					use the same set of input actions, like "move_left" or
+					"jump_neutral". The idea is to have each type of input action
+					have two possible buttons / motions / etc. that trigger it,
+					one for each of two different ids associated with each player.
+					This would be done with the input editor itself I think.
+				
+					 
+	
 	Game
 		Scenes
 			Smooth transitions between game modes is needed
