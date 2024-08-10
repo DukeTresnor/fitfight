@@ -12,16 +12,18 @@ func physics_update(delta: float) -> void:
 		return
 		
 	var input_direction_x: float = (
-		Input.get_action_strength("move_right")
-		- Input.get_action_strength("move_left")
+		Input.get_action_strength("move_right_%s" % [owner.player_id])
+		- Input.get_action_strength("move_left_%s" % [owner.player_id])
 	)
+
+	print("Walk: input_direction_x: " + str(input_direction_x))
 
 	owner.velocity.x = owner.SPEED * input_direction_x
 	owner.velocity.y += owner.gravity * delta
 	#owner.velocity = owner.move_and_slide()
 	owner.move_and_slide()
 	
-	if Input.is_action_just_pressed("jump_neutral"):
+	if Input.is_action_just_pressed("jump_neutral_%s" % [owner.player_id]):
 		state_machine.transition_to("Jump", {do_jump = true})
 	elif Input.is_action_just_pressed("crouch"):
 		state_machine.transition_to("Crouch")

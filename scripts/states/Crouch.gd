@@ -19,12 +19,12 @@ func update(delta: float) -> void:
 		state_machine.transition_to("Jump")
 		return
 
-	if Input.is_action_just_pressed("jump_neutral"):
+	if InputBuffer.is_action_press_buffered("jump_neutral_%s" % [owner.player_id]):
 		# We can use a msg dictionary to tell the
 		#   next state that we want to do neutral
 		#   jump
 		state_machine.transition_to("Jump", {do_jump = true})
-	elif (Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right")) and !Input.is_action_pressed("crouch"):
+	elif (InputBuffer.is_action_press_buffered("move_left_%s" % [owner.player_id]) or InputBuffer.is_action_press_buffered("move_right_%s" % [owner.player_id])) and !InputBuffer.is_action_press_buffered("crouch"):
 			state_machine.transition_to("Walk")
 
 	
@@ -32,9 +32,9 @@ func update(delta: float) -> void:
 	# Directional Blocking code block for player
 	# Implement something similar with the player,
 	#   then make it standardized using state transitions
-	if ((owner.player_pos - owner.enemy_pos) >= Vector2(0.0, 0.0) && Input.is_action_pressed("move_right")) || \
-		((owner.player_pos - owner.enemy_pos) < Vector2(0.0, 0.0) && Input.is_action_pressed("move_left")) \
-		&& not (Input.is_action_pressed("move_left") && Input.is_action_pressed("move_right")):
+	if ((owner.player_pos - owner.enemy_pos) >= Vector2(0.0, 0.0) && InputBuffer.is_action_press_buffered("move_right_%s" % [owner.player_id])) || \
+		((owner.player_pos - owner.enemy_pos) < Vector2(0.0, 0.0) && InputBuffer.is_action_press_buffered("move_left_%s" % [owner.player_id])) \
+		&& not (InputBuffer.is_action_press_buffered("move_left_s" % [owner.player_id]) && InputBuffer.is_action_press_buffered("move_right_%s" % [owner.player_id])):
 		#dummy_animated_sprite_2d.play("debug_block")
 		owner.is_player_blocking = true
 	else:
@@ -50,11 +50,11 @@ func update(delta: float) -> void:
 
 func physics_update(delta: float) -> void:
 	var input_direction_x: float = (
-		Input.get_action_strength("move_right")
-		- Input.get_action_strength("move_left")
+		Input.get_action_strength("move_right_%s" % [owner.player_id])
+		- Input.get_action_strength("move_left_%s" % [owner.player_id])
 	)
 	
-	if is_equal_approx(input_direction_x, 0.0) and !Input.is_action_pressed("crouch"):
+	if is_equal_approx(input_direction_x, 0.0) and !InputBuffer.is_action_press_buffered("crouch"):
 		
 		print("crouch: lknsdckndkjsnckncskdncksncskcnknskcnkn")
 		

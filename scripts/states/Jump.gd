@@ -23,11 +23,11 @@ func update(delta: float) -> void:
 func physics_update(delta: float) -> void:
 	# Horizontal movement.
 	var input_direction_x: float = (
-		Input.get_action_strength("move_right")
-		- Input.get_action_strength("move_left")
+		Input.get_action_strength("move_right_%s" % [owner.player_id])
+		- Input.get_action_strength("move_left_%s" % [owner.player_id])
 	)
 	
-	# --- Have this enabled to allow movement through air ---
+	# --- Have this enabled to allow movement while in the air ---
 	owner.velocity.x = owner.SPEED * input_direction_x
 	# Vertical movement.
 	owner.velocity.y += owner.gravity * delta

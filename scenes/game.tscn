@@ -58,6 +58,10 @@ script = ExtResource("3_xurvh")
 [node name="Player1" parent="." groups=["player"] instance=ExtResource("1_lm0sm")]
 position = Vector2(-12, -15)
 
+[node name="Player2" parent="." groups=["player"] instance=ExtResource("1_lm0sm")]
+position = Vector2(-183, -7)
+player_id = 2
+
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 position = Vector2(33, 1)
 

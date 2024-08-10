@@ -164,8 +164,35 @@ Developer notes
 					have two possible buttons / motions / etc. that trigger it,
 					one for each of two different ids associated with each player.
 					This would be done with the input editor itself I think.
-				
-					 
+		
+		Online Multiplayer?
+			ggpo, rollback netcode, implementations, etc.
+			Resources
+				How to start making multiplayer games in Godot 4 - Ping Pong Multiplayer Tutorial
+					https://www.youtube.com/watch?v=MFkBOzWJmPM
+					Not sure if this will be what I need...
+				Multiplayer Gameplay (Synchronization and Buffers)
+					https://lukestampfli.github.io/EmbeddedFPSExample/guide/multiplayer-gameplay.html	
+				Multiplayer input game asset library
+					https://godotengine.org/asset-library/asset/1496
+	
+	Frame-by-frame debugging tool
+		Resources
+			https://github.com/godotengine/godot-proposals/issues/3105
+				look at manuq's post
+		Idea (code block)
+			extends Node
+			func _ready():
+				process_mode = Node.PROCESS_MODE_ALWAYS
+			func _input(event):
+				if Input.is_action_pressed("pause-resume"):
+					get_tree().paused = not get_tree().paused
+			func _process(delta):
+				if Input.is_action_just_pressed("next-frame"):
+					if get_tree().paused:
+						get_tree().paused = false
+					await get_tree().process_frame
+					get_tree().paused = true
 	
 	Game
 		Scenes

@@ -11,11 +11,21 @@ const JOY_DEADZONE: float = 0.2
 
 const MOVEMENT_ORDER_QUEUE_SIZE: int = 7
 
+
+# Eventually create 2 of each of these, one for each player.
+#   Also pull references for each player from the game scene, use
+#     those references for InputBuffer.is_action_press_buffered("jump_neutral_%s" % [owner.player_id])
+#     calls to properly figure out an owner -- each reference would be an
+#     "owner" in this case
 var keyboard_timestamps: Dictionary
 var joypad_timestamps: Dictionary
+
+
+# Not needed? _get_movement_input() not needed either?
 var movement_order_queue
 var input_quad = Vector2(0, 0)
 var previous_quad_value
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -32,6 +42,8 @@ func _ready() -> void:
 	for element in MOVEMENT_ORDER_QUEUE_SIZE:
 		#print(order_queue[element])
 		movement_order_queue[element] = Vector2(2, 2)
+
+	
 
 # Called whenever the player makes an input.
 func _input(event: InputEvent) -> void:
@@ -64,22 +76,22 @@ func _input(event: InputEvent) -> void:
 func _process(_delta):
 	#print("input_buffer: testing values: keyboard_timestamps: " + \
 	#	str(keyboard_timestamps))
-	_get_movement_input()
+	#_get_movement_input()
 	#print("input_buffer: testing order_queue: " + str(movement_order_queue))
-	#pass
+	pass
 
 
 func _get_movement_input() -> void:
-	if InputBuffer.is_action_press_buffered("move_left") && !InputBuffer.is_action_press_buffered("move_right"):
+	if InputBuffer.is_action_press_buffered("move_left_%s" % [owner.player_id]) && !InputBuffer.is_action_press_buffered("move_right_%s" % [owner.player_id]):
 		input_quad.x = -1
-	elif InputBuffer.is_action_press_buffered("move_right") && !InputBuffer.is_action_press_buffered("move_left"):
+	elif InputBuffer.is_action_press_buffered("move_right_%s" % [owner.player_id]) && !InputBuffer.is_action_press_buffered("move_left_%s" % [owner.player_id]):
 		input_quad.x = 1
 	else:
 		input_quad.x = 0
 	
-	if InputBuffer.is_action_press_buffered("jump_neutral") && !InputBuffer.is_action_press_buffered("crouch"):
+	if InputBuffer.is_action_press_buffered("jump_neutral_%s" % [owner.player_id]) && !InputBuffer.is_action_press_buffered("crouch"):
 		input_quad.y = 1
-	elif InputBuffer.is_action_press_buffered("crouch") && !InputBuffer.is_action_press_buffered("jump_neutral"):
+	elif InputBuffer.is_action_press_buffered("crouch") && !InputBuffer.is_action_press_buffered("jump_neutral_%s" % [owner.player_id]):
 		input_quad.y = -1
 	else:
 		input_quad.y = 0

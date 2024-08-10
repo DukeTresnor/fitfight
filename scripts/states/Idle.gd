@@ -68,9 +68,9 @@ func update(delta: float) -> void:
 		# Directional Blocking code block for player
 		# Implement something similar with the player,
 		#   then make it standardized using state transitions
-		if ((owner.player_pos - owner.enemy_pos) >= Vector2(0.0, 0.0) && Input.is_action_pressed("move_right")) || \
-			((owner.player_pos - owner.enemy_pos) < Vector2(0.0, 0.0) && Input.is_action_pressed("move_left")) \
-			&& not (Input.is_action_pressed("move_left") && Input.is_action_pressed("move_right")):
+		if ((owner.player_pos - owner.enemy_pos) >= Vector2(0.0, 0.0) && InputBuffer.is_action_press_buffered("move_right_%s" % [owner.player_id])) || \
+			((owner.player_pos - owner.enemy_pos) < Vector2(0.0, 0.0) && InputBuffer.is_action_press_buffered("move_left_%s" % [owner.player_id])) \
+			&& not (InputBuffer.is_action_press_buffered("move_left_%s" % [owner.player_id]) && InputBuffer.is_action_press_buffered("move_right_%s" % [owner.player_id])):
 			#dummy_animated_sprite_2d.play("debug_block")
 			owner.is_player_blocking = true
 		else:
@@ -80,7 +80,7 @@ func update(delta: float) -> void:
 		#print("idle: is_player_blocking_in_idle: " + str(owner.is_player_blocking))
 		# --------------------------------------------- ]
 
-	if InputBuffer.is_action_press_buffered("jump_neutral"):
+	if InputBuffer.is_action_press_buffered("jump_neutral_%s" % [owner.player_id]):
 	#	print("Idle: testing jump_neutral")
 	#if Input.is_action_just_pressed("jump_neutral"):
 		# We can use a msg dictionary to tell the
@@ -88,7 +88,7 @@ func update(delta: float) -> void:
 		#   jump
 		state_machine.transition_to("Jump", {do_jump = true})
 		
-	if InputBuffer.is_action_press_buffered("move_left") or InputBuffer.is_action_press_buffered("move_right"):
+	if InputBuffer.is_action_press_buffered("move_left_%s" % [owner.player_id]) or InputBuffer.is_action_press_buffered("move_right_%s" % [owner.player_id]):
 	#elif Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right"):
 			
 			
@@ -96,14 +96,13 @@ func update(delta: float) -> void:
 			state_machine.transition_to("Walk")
 			
 	# Excess logic checking here -- don't need the move left or right check?
-	if Input.is_action_pressed("crouch") or \
-		(Input.is_action_pressed("crouch") and \
-			(Input.is_action_pressed("move_left") || Input.is_action_pressed("move_right"))):
+	if InputBuffer.is_action_press_buffered("crouch") or \
+		(InputBuffer.is_action_press_buffered("crouch") and \
+			(InputBuffer.is_action_press_buffered("move_left_s" % [owner.player_id]) || InputBuffer.is_action_press_buffered("move_right_%s" % [owner.player_id]))):
 			state_machine.transition_to("Crouch")
 
 
-	#if InputBuffer.is_action_press_buffered("attack_light"):
-	if Input.is_action_just_pressed("attack_light"):
+	if InputBuffer.is_action_press_buffered("attack_light"):
 		state_machine.transition_to("AttackLight")
 	
 

@@ -19,6 +19,8 @@ const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 const JUMP_IMPULSE = 450.0
 
+@export var player_id = 1
+
 
 # Reference to the dummy_enemy. Eventually this would be the other player,
 #   but I'm not sure -- it would depend on how I implemented 2 players
